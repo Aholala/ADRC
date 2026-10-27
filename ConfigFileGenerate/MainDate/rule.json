@@ -1,0 +1,739 @@
+{
+  "modules": [
+    {
+      "name": "USE_JLINK_RTT",
+      "note": "JLinkRTT日志功能",
+      "paths": [
+        "Bsp/JLINK_RTT"
+      ],
+      "submodules": [],
+      "defines": [
+        {
+          "name": "ECF_RTT_LOG_ENABLE",
+          "value": "0",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_PERIODIC_INFO_ENABLE",
+          "value": "1",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_PERIODIC_INFO_USE_TERMINAL",
+          "value": "1",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_PERIODIC_INFO_TERMINAL",
+          "value": "1U",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_ENABLE_CHASSIS",
+          "value": "1",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_ENABLE_NEW_CAP",
+          "value": "1",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_ENABLE_MOTOR",
+          "value": "1",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_ENABLE_DR16",
+          "value": "1",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_ENABLE_REFEREE",
+          "value": "0",
+          "comment": ""
+        },
+        {
+          "name": "ECF_RTT_LOG_ENABLE_TOF",
+          "value": "1",
+          "comment": ""
+        },
+        {
+          "name": "CHASSIS_RTT_LOG_ENABLE",
+          "value": "(ECF_RTT_LOG_ENABLE && ECF_RTT_LOG_ENABLE_CHASSIS)",
+          "comment": ""
+        },
+        {
+          "name": "CHASSIS_RTT_STATUS_LOG_PERIOD_MS",
+          "value": "500U",
+          "comment": ""
+        },
+        {
+          "name": "ECF_NEW_CAP_LOW_VBAT_WARN",
+          "value": "21.0f",
+          "comment": ""
+        },
+        {
+          "name": "ECF_NEW_CAP_LOW_VCAP_WARN",
+          "value": "15.0f",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "name": "USE_ALG",
+      "note": "算法库,需要打开DSP数学库",
+      "paths": [
+        "Algorithm/ab_filter",
+        "Algorithm/CRC",
+        "Algorithm/filter_alg",
+        "Algorithm/GravityComp",
+        "Algorithm/kalman_filter",
+        "Algorithm/lqr",
+        "Algorithm/PID",
+        "Algorithm/quaternion_kalman",
+        "Algorithm/RLS",
+        "Algorithm/structure",
+        "Algorithm/user_maths",
+        "Algorithm/user_maths/cpp_files",
+        "Algorithm/user_maths/fifo"
+      ],
+      "submodules": [],
+      "defines": []
+    },
+    {
+      "name": "USE_DWT",
+      "note": "",
+      "paths": [
+        "Bsp/DWT"
+      ],
+      "submodules": []
+    },
+    {
+      "name": "USE_PWM",
+      "note": "",
+      "paths": [
+        "Bsp/PWM"
+      ],
+      "submodules": []
+    },
+    {
+      "name": "USE_EXTI",
+      "note": "",
+      "paths": [
+        "Bsp/EXTI"
+      ],
+      "submodules": []
+    },
+    {
+      "name": "USE_SPI",
+      "note": "",
+      "paths": [
+        "Bsp/SPI"
+      ],
+      "submodules": []
+    },
+    {
+      "name": "USE_FLASH",
+      "note": "",
+      "paths": [
+        "Bsp/FLASH"
+      ],
+      "submodules": []
+    },
+    {
+      "name": "USE_USART",
+      "note": "",
+      "paths": [
+        "Bsp/USART"
+      ],
+      "submodules": [],
+      "defines": []
+    },
+    {
+      "name": "USE_CAN",
+      "note": "基础CAN驱动",
+      "paths": [
+        "Bsp/CAN",
+        "Bsp/CAN/can"
+      ],
+      "submodules": [
+        "USE_DWT"
+      ],
+      "defines": [
+        {
+          "name": "USE_CAN1",
+          "value": "",
+          "comment": ""
+        },
+        {
+          "name": "USE_CAN2",
+          "value": "",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "name": "USE_FDCAN",
+      "note": "FDCAN驱动",
+      "paths": [
+        "Bsp/CAN",
+        "Bsp/CAN/fdcan"
+      ],
+      "submodules": [
+        "USE_DWT"
+      ],
+      "defines": [
+        {
+          "name": "USE_FDCAN1",
+          "value": "",
+          "comment": ""
+        },
+        {
+          "name": "USE_FDCAN2",
+          "value": "",
+          "comment": ""
+        },
+        {
+          "name": "USE_FDCAN3",
+          "value": "",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "name": "USE_SAFE_TASK",
+      "note": "安全任务，需要RTOS",
+      "paths": [
+        "App/safe_task"
+      ],
+      "submodules": [
+        "USE_DWT"
+      ]
+    },
+    {
+      "name": "USE_WS2812",
+      "note": "WS2812灯珠驱动(PWM+SPI)",
+      "paths": [
+        "Module/ws2812"
+      ],
+      "submodules": [
+        "USE_SPI",
+        "USE_PWM"
+      ],
+      "defines": [
+        {
+          "name": "WS2812_COMMUNICATION_MODE",
+          "value": "0xF0",
+          "comment": "0xF0 为PWM模式，0x0F为SPI模式，0xFF为两者都可"
+        }
+      ]
+    },
+    {
+      "name": "USE_DM_MOTOR_F4",
+      "note": "F4达妙电机驱动",
+      "paths": [
+        "Module/motor",
+        "Module/motor/DM"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_CAN",
+        "USE_ALG"
+      ],
+      "defines": []
+    },
+    {
+      "name": "USE_DM_MOTOR_H7",
+      "note": "H7达妙电机驱动",
+      "paths": [
+        "Module/motor",
+        "Module/motor/DM"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_FDCAN",
+        "USE_ALG"
+      ],
+      "defines": []
+    },
+    {
+      "name": "USE_DJI_MOTOR_F4",
+      "note": "F4大疆电机驱动",
+      "paths": [
+        "Module/motor",
+        "Module/motor/DJI"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_CAN",
+        "USE_ALG"
+      ],
+      "defines": []
+    },
+    {
+      "name": "USE_DJI_MOTOR_H7",
+      "note": "H7大疆电机驱动",
+      "paths": [
+        "Module/motor",
+        "Module/motor/DJI"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_FDCAN",
+        "USE_ALG"
+      ],
+      "defines": []
+    },
+    {
+      "name": "USE_VESC_MOTOR_F4",
+      "note": "VESC类电调基础CAN通讯",
+      "paths": [
+        "Module/motor/VESC"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_CAN"
+      ],
+      "defines": [
+        {
+          "name": "VESC_DRIVER_NUM",
+          "value": "3",
+          "comment": "最大挂载VESC电调设备数量"
+        }
+      ]
+    },
+    {
+      "name": "USE_VESC_MOTOR_H7",
+      "note": "VESC类电调FDCAN通讯",
+      "paths": [
+        "Module/motor/VESC"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_FDCAN"
+      ],
+      "defines": [
+        {
+          "name": "VESC_DRIVER_NUM",
+          "value": "3",
+          "comment": "最大挂载VESC设备数量"
+        }
+      ]
+    },
+    {
+      "name": "USE_C615_MOTOR",
+      "note": "大疆C615电调PWM驱动",
+      "paths": [
+        "Module/motor/C615"
+      ],
+      "submodules": [
+        "USE_PWM"
+      ]
+    },
+    {
+      "name": "USE_DR16",
+      "note": "DR16通讯",
+      "paths": [
+        "Module/dr16"
+      ],
+      "submodules": [
+        "USE_DWT",
+        "USE_SAFE_TASK",
+        "USE_USART"
+      ],
+      "defines": [
+        {
+          "name": "DT7_USART",
+          "value": "huart5",
+          "comment": "DR16串口号"
+        },
+        {
+          "name": "Clear_DT7_SW_R",
+          "value": "0U",
+          "comment": "失联后DT7右摇杆默认杆位"
+        },
+        {
+          "name": "Clear_DT7_SW_L",
+          "value": "0U",
+          "comment": "失联后DT7左摇杆默认杆位"
+        }
+      ]
+    },
+    {
+      "name": "USE_REFEREE",
+      "note": "裁判系统串口通讯(目前还耦合了图传串口)",
+      "paths": [
+        "Module/referee/referee_new"
+      ],
+      "submodules": [
+        "USE_DWT",
+        "USE_USART",
+        "USE_SAFE_TASK"
+      ],
+      "defines": [
+        {
+          "name": "REFEREE_USART",
+          "value": "huart2",
+          "comment": "裁判系统串口号"
+        }
+      ]
+    },
+    {
+      "name": "USE_TOF",
+      "note": "激光测距",
+      "paths": [
+        "Module/tof"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_USART",
+        "USE_ALG",
+        "USE_DWT"
+      ],
+      "defines": []
+    },
+    {
+      "name": "USE_DFM113D",
+      "note": "力值测量计驱动&通讯",
+      "paths": [
+        "Module/dfm113d"
+      ],
+      "submodules": [
+        "USE_DWT",
+        "USE_USART"
+      ],
+      "defines": [
+        {
+          "name": "DFM113D_NOACK_TIME",
+          "value": ".250f",
+          "comment": "检测无应答时间，单位秒"
+        },
+        {
+          "name": "DFM113D_SEND_TIME",
+          "value": ".050f",
+          "comment": "单串口发送间隔时间，单位秒"
+        }
+      ]
+    },
+    {
+      "name": "USE_PWM_SERVO",
+      "note": "PWM舵机驱动",
+      "paths": [
+        "Module/servo"
+      ],
+      "submodules": [
+        "USE_PWM"
+      ]
+    },
+    {
+      "name": "USE_IMU",
+      "note": "BMI088+EKF姿态解算",
+      "paths": [
+        "Module/imu"
+      ],
+      "submodules": [
+        "USE_PWM",
+        "USE_SPI",
+        "USE_ALG",
+        "USE_DWT"
+      ],
+      "defines": [
+        {
+          "name": "Heater_Kp",
+          "value": "7.f",
+          "comment": ""
+        },
+        {
+          "name": "Heater_Ki",
+          "value": "0.f",
+          "comment": ""
+        },
+        {
+          "name": "Heater_Kd",
+          "value": "0.f",
+          "comment": ""
+        },
+        {
+          "name": "Heater_maxIerror",
+          "value": "10",
+          "comment": ""
+        },
+        {
+          "name": "Init_Heater_Duty",
+          "value": "10.f",
+          "comment": "预热阶段固定占空比上限前的目标值"
+        },
+        {
+          "name": "IMU_CALI_GNORMDIFF_BREAK_THRESHOLD",
+          "value": "1.5f",
+          "comment": "校准内层采样中断阈值"
+        },
+        {
+          "name": "IMU_CALI_GNORMDIFF_PASS_THRESHOLD",
+          "value": "1.501f",
+          "comment": "校准外层通过阈值"
+        },
+        {
+          "name": "TEMP_UPDATE_TIMEOUT_MS",
+          "value": "500",
+          "comment": "温度数据更新超时保护，单位ms"
+        },
+        {
+          "name": "Heater_forward",
+          "value": "15",
+          "comment": "加热器前馈值"
+        },
+        {
+          "name": "Init_temp",
+          "value": "35.f",
+          "comment": "初始化前温度"
+        },
+        {
+          "name": "Target_temp",
+          "value": "40.f",
+          "comment": "目标温度"
+        },
+        {
+          "name": "Max_temp",
+          "value": "80.f",
+          "comment": "最高温度"
+        },
+        {
+          "name": "Preheat_Timeout",
+          "value": "20*1000",
+          "comment": "预热超时时间，单位ms"
+        },
+        {
+          "name": "IMU_HEATER_TIM",
+          "value": "&htim2",
+          "comment": "温控PWM用TIM"
+        },
+        {
+          "name": "IMU_HEATER_TIM_CHANNEL",
+          "value": "TIM_CHANNEL_3",
+          "comment": "温控pWM用TIM通道"
+        },
+        {
+          "name": "BMI088_SPI",
+          "value": "&hspi1",
+          "comment": ""
+        },
+        {
+          "name": "isHeaterEnabled",
+          "value": "0",
+          "comment": "是否启用加热器"
+        },
+        {
+          "name": "GxOFFSET",
+          "value": "-0.0f",
+          "comment": "离线校准数据,需要手动修改，x轴角速度补偿"
+        },
+        {
+          "name": "GyOFFSET",
+          "value": "-0.0f",
+          "comment": "离线校准数据,需要手动修改，y轴角速度补偿"
+        },
+        {
+          "name": "GzOFFSET",
+          "value": "0.0f",
+          "comment": "离线校准数据,需要手动修改，z轴角速度补偿"
+        },
+        {
+          "name": "gNORM",
+          "value": "9.6f",
+          "comment": "离线校准数据,需要手动修改"
+        },
+        {
+          "name": "CENTER_IMU_rx",
+          "value": "0.f",
+          "comment": "加速度计修正安装误差，imu距离 机体中心/旋转中心/质心 在 imu 坐标系 x轴方向上的 距离 单位m"
+        },
+        {
+          "name": "CENTER_IMU_ry",
+          "value": "0.f",
+          "comment": "加速度计修正安装误差，imu距离 机体中心/旋转中心/质心 在 imu 坐标系 y轴方向上的 距离 单位m"
+        },
+        {
+          "name": "CENTER_IMU_rz",
+          "value": "0.f",
+          "comment": "加速度计修正安装误差，imu距离 机体中心/旋转中心/质心 在 imu 坐标系 z轴方向上的 距离 单位m"
+        },
+        {
+          "name": "IMU_Pitch_Offset",
+          "value": "0.f",
+          "comment": "imu安装俯仰角修正 单位deg "
+        },
+        {
+          "name": "IMU_Roll_Offset",
+          "value": "0.f",
+          "comment": "imu安装横滚角修正 单位deg"
+        }
+      ]
+    },
+    {
+      "name": "USE_POWER_CRTL_BASE",
+      "note": "功率限制子模块",
+      "paths": [
+        "App/power_ctrl"
+      ],
+      "submodules": [
+        "USE_SAFE_TASK",
+        "USE_USART",
+        "USE_ALG",
+        "USE_DWT"
+      ],
+      "defines": [
+        {
+          "name": "CAP_FDCAN",
+          "value": "&hfcan3",
+          "comment": ""
+        },
+        {
+          "name": "CAP_CAN",
+          "value": "&hcan3",
+          "comment": ""
+        },
+        {
+          "name": "CAP_TX_ID",
+          "value": "0x210",
+          "comment": ""
+        },
+        {
+          "name": "CAP_RX_ID",
+          "value": "0x211",
+          "comment": ""
+        },
+        {
+          "name": "TWO",
+          "value": "2",
+          "comment": "轮腿(未加)"
+        },
+        {
+          "name": "FOUR",
+          "value": "4",
+          "comment": "四轮车"
+        },
+        {
+          "name": "EIGHT",
+          "value": "8",
+          "comment": "轮+舵"
+        },
+        {
+          "name": "CHASSIS_TYPE",
+          "value": "EIGHT",
+          "comment": "定义该宏->使用\"扭矩衰减法\",不定义->使用\"功率衰减法\""
+        },
+        {
+          "name": "USE_SUPPER_CAP",
+          "value": "",
+          "comment": "开超级电容，工程不选这个"
+        },
+        {
+          "name": "CAP_ON_TARGET_ENERGY",
+          "value": "40",
+          "comment": "开电容模式: 40% 目标能量 (激进，多用电)"
+        },
+        {
+          "name": "CAP_OFF_TARGET_ENERGY",
+          "value": "80",
+          "comment": "关电容模式: 80% 目标能量 (保守,多存点)"
+        },
+        {
+          "name": "ENERGY_PID_KP",
+          "value": "-1.0f",
+          "comment": ""
+        },
+        {
+          "name": "ENERGY_PID_KI",
+          "value": "0.0f",
+          "comment": ""
+        },
+        {
+          "name": "ENERGY_PID_KD",
+          "value": "1.0f",
+          "comment": ""
+        },
+        {
+          "name": "ENERGY_PID_MAXOUT",
+          "value": "35.0f",
+          "comment": ""
+        },
+        {
+          "name": "ENERGY_PID_MAX_IERROR",
+          "value": "8.0f",
+          "comment": ""
+        },
+        {
+          "name": "POWER_CTRL_USE_TORQUE_DECAY",
+          "value": "",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "name": "USE_POWER_CTRL_RLS",
+      "note": "功率限制，带RLS",
+      "paths": [
+        "App/power_ctrl/RLS"
+      ],
+      "submodules": [
+        "USE_POWER_CRTL_BASE"
+      ],
+      "defines": []
+    },
+    {
+      "name": "USE_POWER_CTRL_NORLS",
+      "note": "功率限制，不带RLS",
+      "paths": [
+        "App/power_ctrl/noRLS"
+      ],
+      "submodules": [
+        "USE_POWER_CRTL_BASE"
+      ],
+      "defines": []
+    },
+    {
+      "name": "USE_CMD",
+      "note": "需要DR16或REFEREE任意一个开启",
+      "paths": [
+        "App/robo_cmd"
+      ],
+      "submodules": []
+    },
+    {
+      "name": "USE_FLASH_LOG",
+      "note": "主控自带闪存日志记录",
+      "paths": [
+        "Module/log",
+        "Module/log/LocalFlash"
+      ],
+      "submodules": [
+        "USE_FLASH"
+      ]
+    },
+    {
+      "name": "USE_DEBUG_LIGHT",
+      "note": "ACE主控自带灯语",
+      "paths": [
+        "App/debug_light"
+      ],
+      "submodules": [
+        "USE_DWT",
+        "USE_WS2812"
+      ],
+      "defines": [
+        {
+          "name": "DEFAULT_LIGHT_QUEUE_SIZE",
+          "value": "3",
+          "comment": "灯效缓存队列大小"
+        },
+        {
+          "name": "DEFAULT_LIGHT_BLINK_MAX",
+          "value": "8",
+          "comment": "灯效最大闪烁次数"
+        }
+      ]
+    }
+  ]
+}
