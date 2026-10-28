@@ -17,8 +17,8 @@
 
 新增的模块为 `adrc::LESO3`：
 
-- `include/adrc/leso3.hpp`：接口与状态。
-- `src/leso3.cpp`：初始化、复位和一拍更新。
+- `include/adrc/adrc.hpp`：接口与状态。
+- `src/adrc.cpp`：初始化、复位和一拍更新。
 
 已有 `LESO2` 仍服务于一阶对象，没有被覆盖或改成三阶。
 公共模块不依赖HAL、RTOS、动态内存、系统时钟或本机文件读写。
@@ -52,7 +52,7 @@ const float next_z3 = z3_ - dt * beta3_ * error;
 以下是调用形式，变量由使用者的工程提供：
 
 ```cpp
-#include "adrc/leso3.hpp"
+#include "adrc/adrc.hpp"
 
 adrc::LESO3 observer;
 bool configured = observer.Init(b0, omega_o,
@@ -176,7 +176,7 @@ run('D:/ACE/Infantry_dev/ADRC/matlab/第16讲_三阶LESO的C++对齐/run_lesson.
 
 ## 9. 嵌入式使用与证据边界
 
-消费工程只需添加 `src/leso3.cpp`，并将 `include/` 加入头文件搜索路径。
+消费工程只需添加 `src/adrc.cpp`，并将 `include/` 加入头文件搜索路径。
 不需要加入MATLAB、测试程序或CSV驱动程序。仍需由工程提供初始化参数、周期、输入和测量。
 
 本次另完成Cortex-M4与Cortex-M7浮点选项下的核心对象编译，关闭异常与RTTI。

@@ -151,7 +151,7 @@ UpdateObserver(u_applied[k],y_meas[k],dt) -> z[k+1]
 同一实例由调用方串行使用，每个区间只更新一次。
 这一预测式的 `z[k]` 还没有融合当前 `y[k]` 的立即修正，时序与当前观测器不同。
 
-核心是 `include/adrc/ladrc1.hpp`、`src/ladrc1.cpp`，内部持有已有的
+核心是 `include/adrc/adrc.hpp`、`src/adrc.cpp`，内部持有已有的
 `LESO2`，不复制观测器方程或增加另一套状态。
 
 ## 7. 观察补偿开启与关闭的差别

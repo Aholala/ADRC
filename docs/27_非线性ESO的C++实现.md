@@ -4,8 +4,8 @@
 
 ## 1. 拿哪些文件
 
-共享分段幂函数在 `include/adrc/fal.hpp` 和 `src/fal.cpp`。
-三阶非线性ESO在 `include/adrc/eso3.hpp` 和 `src/eso3.cpp`。
+共享分段幂函数Fal与三阶非线性ESO3统一位于 `include/adrc/adrc.hpp` 和 `src/adrc.cpp`，
+分别在“基础函数”和“观测器”分区，接口仍独立使用。
 核心只保存配置和三个状态，没有HAL、RTOS、动态内存或系统时钟依赖。
 
 ```cpp

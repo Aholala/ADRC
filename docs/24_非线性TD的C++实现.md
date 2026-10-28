@@ -24,8 +24,8 @@ sys(2) = x(2) + h*fhan(x(1)-u,x(2),r,h0);
 
 | 本讲文件 | 作用 |
 | --- | --- |
-| `include/adrc/td2.hpp` | 公共接口、单位与时间约定 |
-| `src/td2.cpp` | Init、Reset、原fhan计算、前向欧拉更新 |
+| `include/adrc/adrc.hpp` | 公共接口、单位与时间约定 |
+| `src/adrc.cpp` | Init、Reset、原fhan计算、前向欧拉更新 |
 | `tests/td2_test.cpp` | 分支手算、解析阶段、边界与失败保持测试 |
 | `examples/24_td_alignment/td_runner.cpp` | 主机逐拍输入输出，不加入固件控制环 |
 | `matlab/第24讲_非线性TD的C++实现/run_lesson.m` | 自动编译、原函数对照与中文图 |
@@ -221,6 +221,6 @@ MATLAB入口只做主机编译，不依赖ARM工具链；本步没有固件链�
 - `alignment_result.mat`：变量result，保存教学归属、参数来源、编译器、测试输出与数据。
 - `td_cpp_alignment.fig/.png/.svg`：中文教学图。
 
-固件只需要头文件搜索目录include和 `src/td2.cpp`，主机I/O与测试不带入控制任务。
+固件只需要头文件搜索目录include和 `src/adrc.cpp`，主机I/O与测试不带入控制任务。
 对象编译、主机核对与板上执行是不同证据层次，不能由前两者推断实机已经验证。
 下一步见[第25讲：fal与非线性ESO入门](25_fal与非线性ESO入门.md)，从原误差纠偏公式理解它和LESO的区别。

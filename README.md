@@ -22,21 +22,26 @@
 - **LESO**：线性扩张状态观测器，作为 LADRC 内部的观测部分。
 - **TD**：跟踪微分器，用于信号过渡和变化率估计，可与控制器组合。
 
-库中的类名和文件名统一使用算法缩写：
+库中的类名统一使用算法缩写：
 
-| 类名 | 含义 | 头文件 |
-| --- | --- | --- |
-| `LTD2` / `TD2` | 线性 / 非线性二阶TD | `ltd2.hpp` / `td2.hpp` |
-| `LESO2` / `LESO3` | 二阶 / 三阶线性ESO | `leso2.hpp` / `leso3.hpp` |
-| `RLESO1` | 一个内部状态的降阶线性ESO | `rleso1.hpp` |
-| `ESO3` / `ESO3Config` | 三阶非线性ESO及其配置 | `eso3.hpp` |
-| `LADRC1` / `LADRC2` | 一阶 / 二阶LADRC | `ladrc1.hpp` / `ladrc2.hpp` |
-| `SEF2` | 两项非线性状态误差反馈 | `sef2.hpp` |
+| 类名 | 含义 |
+| --- | --- |
+| `LTD2` / `TD2` | 线性 / 非线性二阶TD |
+| `LESO2` / `LESO3` | 二阶 / 三阶线性ESO |
+| `RLESO1` | 一个内部状态的降阶线性ESO |
+| `ESO3` / `ESO3Config` | 三阶非线性ESO及其配置 |
+| `LADRC1` / `LADRC2` | 一阶 / 二阶LADRC |
+| `SEF2` | 两项非线性状态误差反馈 |
 
 所有类位于 `adrc` 命名空间，头文件位于 `include/adrc/`。
 非线性部分直接用 `TD`、`ESO`、`SEF` 命名；线性部分保留 `LTD`、`LESO`、`LADRC` 前缀。
 LESO的数字表示观测器阶次；LADRC的数字表示控制器对应的对象阶次。
 统一头文件仍为 `#include "adrc/adrc.hpp"`。
+
+**运行库只需两个文件：** [adrc.hpp](include/adrc/adrc.hpp) 和 [adrc.cpp](src/adrc.cpp)。
+将 `include/` 加入头文件搜索路径，编译 `src/adrc.cpp` 即可使用全部组件。
+文件内部按“基础函数 → TD → ESO → 控制器与反馈”分区，各类仍可独立使用。
+`docs/`、`matlab/`、`examples/` 与 `tests/` 分别保存讲义、仿真、接入示例与验证程序。
 
 在 MATLAB 中将当前文件夹切到本仓库，运行最终验收：
 
@@ -46,7 +51,7 @@ run('matlab/第30讲_库使用与最终验证/run_lesson.m')
 
 第30讲自动运行第26～29讲，完成完整非线性ESO、反馈与C++组合核对，并构建静态库和运行11项主机测试。
 需要MATLAB、g++、CMake、Ninja与本机ADRC1参考文件，无需MEX或Simulink。最终记录在 `build/lesson30/`。
-生产接口为 `include/adrc/`，实现为 `src/`；统一头文件 `adrc/adrc.hpp`。
+生产接口集中在 `include/adrc/adrc.hpp`，全部实现在 `src/adrc.cpp`。
 CMake提供adrc目标；单独验证C++可运行 `tests/verify_host.ps1`，M4/M7整库编译见 `tests/verify_arm.ps1`。
 这些是主机/MATLAB与目标静态库验证，尚未消费固件ELF链接、板上时序或电机验证。
 

@@ -27,8 +27,8 @@ $$
 
 | 文件 | 用途 |
 | --- | --- |
-| `include/adrc/rleso1.hpp` | 公共接口与时间标签约定 |
-| `src/rleso1.cpp` | 初始化、重构、前向欧拉更新 |
+| `include/adrc/adrc.hpp` | 公共接口与时间标签约定 |
+| `src/adrc.cpp` | 初始化、重构、前向欧拉更新 |
 | `tests/rleso1_test.cpp` | 主机解析响应、接口与数值边界核对 |
 | `examples/22_reduced_leso_alignment/reduced_leso_runner.cpp` | CSV同输入回放工具，属于主机例程 |
 
@@ -180,7 +180,7 @@ ARM记录包含目标参数、对象文件和当前源文件哈希；MATLAB入�
 - `alignment_result.mat`：变量result，含教学归属、参数、编译器、主机测试输出与数据。
 - `reduced_leso_cpp_alignment.fig/.png/.svg`：中文教学图。
 
-移入消费工程时，只需增加头文件搜索目录include并编译 `src/rleso1.cpp`。
+移入消费工程时，只需增加头文件搜索目录include并编译 `src/adrc.cpp`。
 不要把测试程序、CSV解析或主机日志代码带进固件控制环。
 核心对象编译通过只能说明相关目标编译器接受它，仍需要消费工程链接、板上时序和实际对象验证。
 

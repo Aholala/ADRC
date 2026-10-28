@@ -24,8 +24,8 @@ const float next_z2 = z2 - dt * beta2 * error;
 
 实现位于：
 
-- `include/adrc/leso2.hpp`：`adrc::LESO2` 接口。
-- `src/leso2.cpp`：前向欧拉计算与数值参数检查。
+- `include/adrc/adrc.hpp`：`adrc::LESO2` 接口。
+- `src/adrc.cpp`：前向欧拉计算与数值参数检查。
 
 `2` 指观测器的两个动态状态，对象仍按一阶建模。
 该实现无 HAL、RTOS、动态内存或系统时钟依赖，不指定任何机器人参数。
@@ -53,7 +53,7 @@ const float next_z2 = z2 - dt * beta2 * error;
 ## 3. 最小接口
 
 ```cpp
-#include "adrc/leso2.hpp"
+#include "adrc/adrc.hpp"
 
 adrc::LESO2 observer;
 
@@ -79,7 +79,7 @@ if (updated)
 这些检查依赖 IEEE 浮点语义，不应以 `-ffast-math` 编译后仍假设检查有效。
 有效范围内仍可能存在浮点精度损失，单位尺度与采样抖动需在消费工程核对。
 
-嵌入式工程添加 `src/leso2.cpp`，并把 `include/` 加入头文件搜索路径即可。
+嵌入式工程添加 `src/adrc.cpp`，并把 `include/` 加入头文件搜索路径即可。
 
 ## 4. 仿真对象和三种情况
 

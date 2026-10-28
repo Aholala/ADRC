@@ -221,7 +221,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 | 30 | 汇总92013 | 统一C++11构建、11项主机测试和上述四讲全部通过 |
 
 四张新增中文图已检查；第25讲因共享fal扩展支持alpha>1，也重新运行通过。
-仅C++入口tests/verify_host.ps1已独立运行，测试11/11通过；tests/verify_arm.ps1生成M4/M7静态库，各10个对象归档通过。
+仅C++入口tests/verify_host.ps1已独立运行，测试11/11通过；tests/verify_arm.ps1生成M4/M7静态库，各1个adrc.o对象包含全部10个算法组件，归档通过。
 最终记录在build/lesson30/final_verification.json、build/host/host_verification.json与build/arm/verification.json。
 ARM记录包含源文件及头文件哈希，已核对与最终核心一致。本次没有消费工程ELF链接、板上时序或电机验证。
 第30讲完成第一版基础课程，限幅超调、浮点残差和实机边界均在讲义中保留说明。

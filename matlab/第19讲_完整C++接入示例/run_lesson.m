@@ -65,21 +65,16 @@ setenv('PATH',[fileparts(compiler) pathsep previous_path]);
 compiler_version=run_checked([quote_path(compiler) ' --version'],'编译器检查');
 prefix=[quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
     quote_path(fullfile(repo,'include')) ' '];
-tests={'ltd2_test',{'ltd2'};'leso3_test',{'leso3'}; ...
-    'ladrc2_test',{'leso3','ladrc2'}};
-host_test_outputs=cell(size(tests,1),1);
-for index=1:size(tests,1)
-    source_args=''; names=tests{index,2};
-    for source=1:numel(names)
-        source_args=[source_args quote_path(fullfile(repo,'src',[names{source} '.cpp'])) ' ']; %#ok<AGROW>
-    end
-    executable=fullfile(output_dir,[tests{index,1} '.exe']);
-    run_checked([prefix source_args quote_path(fullfile(repo,'tests',[tests{index,1} '.cpp'])) ...
-        ' -o ' quote_path(executable)],['编译核心测试：' tests{index,1}]);
-    host_test_outputs{index}=run_checked(quote_path(executable),['运行核心测试：' tests{index,1}]);
+tests={'ltd2_test','leso3_test','ladrc2_test'};
+source_args=[quote_path(fullfile(repo,'src','adrc.cpp')) ' '];
+host_test_outputs=cell(numel(tests),1);
+for index=1:numel(tests)
+    executable=fullfile(output_dir,[tests{index} '.exe']);
+    run_checked([prefix source_args quote_path(fullfile(repo,'tests',[tests{index} '.cpp'])) ...
+        ' -o ' quote_path(executable)],['编译核心测试：' tests{index}]);
+    host_test_outputs{index}=run_checked(quote_path(executable),['运行核心测试：' tests{index}]);
 end
-all_sources=[quote_path(fullfile(repo,'src','ltd2.cpp')) ' ' ...
-    quote_path(fullfile(repo,'src','leso3.cpp')) ' ' quote_path(fullfile(repo,'src','ladrc2.cpp')) ' '];
+all_sources=source_args;
 example_exe=fullfile(output_dir,'control_example.exe');
 run_checked([prefix all_sources quote_path(fullfile(repo,'examples','19_complete_integration','control_example.cpp')) ...
     ' -o ' quote_path(example_exe)],'编译完整C++示例');

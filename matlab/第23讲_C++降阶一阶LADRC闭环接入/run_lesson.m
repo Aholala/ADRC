@@ -13,7 +13,7 @@ reference_dir = fullfile('D:/ACE/ADRC/ADRC1', ...
 reference_file = fullfile(reference_dir,'ADRC_1.m');
 assert(isfile(reference_file),'ADRC:MissingReference','请检查ADRC1的ADRC_1.m。');
 source_snapshot = fileread(reference_file);
-core_file = fullfile(repo,'src','rleso1.cpp');
+core_file = fullfile(repo,'src','adrc.cpp');
 core_snapshot = fileread(core_file);
 addpath(reference_dir,'-begin');
 assert(strcmpi(which('ADRC_1'),reference_file),'ADRC:WrongReference','当前ADRC_1不是指定参考文件。');

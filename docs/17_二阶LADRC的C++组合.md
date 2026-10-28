@@ -11,10 +11,10 @@
 - 一个LESO3保存三个估计状态，不再额外复制一份z1、z2、z3。
 - 不保存电机类型、模式、目标轨迹、输入上限或任务时钟。
 
-新增文件：
+本讲组件在合并库中的位置：
 
-- `include/adrc/ladrc2.hpp`：接口与组合关系。
-- `src/ladrc2.cpp`：参数初始化、静态控制律与观测更新转发。
+- `include/adrc/adrc.hpp`：接口与组合关系。
+- `src/adrc.cpp`：参数初始化、静态控制律与观测更新转发。
 
 已有LADRC1仍对应一阶对象，未被替换。
 
@@ -190,10 +190,10 @@ CSV中before是本拍估计，after是UpdateObserver后的下一拍预测；最�
 
 ## 11. 加入嵌入式工程
 
-消费工程添加 `src/leso3.cpp` 和 `src/ladrc2.cpp`，头文件搜索路径添加 `include/`。
+消费工程添加 `src/adrc.cpp`，头文件搜索路径添加 `include/`。
 不需要加入主机驱动、文件流、MATLAB或测试代码。核心使用C++11，未引入HAL、RTOS或动态内存。
 
-本次两个核心源文件分别完成Cortex-M4/M7浮点选项下的对象编译；
+目前两个核心组件统一位于src/adrc.cpp，整库Cortex-M4/M7对象编译见第30讲；
 尚未完成实际固件链接、任务时序、板上数据或电机验证。
 MATLAB入口重跑主机验证，不自动调用ARM工具链。
 

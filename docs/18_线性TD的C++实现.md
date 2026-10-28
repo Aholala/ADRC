@@ -9,8 +9,8 @@
 
 新增 `adrc::LTD2`：
 
-- `include/adrc/ltd2.hpp`：初始化、复位、更新与状态读取接口。
-- `src/ltd2.cpp`：参数检查与两个状态的一拍推进。
+- `include/adrc/adrc.hpp`：初始化、复位、更新与状态读取接口。
+- `src/adrc.cpp`：参数检查与两个状态的一拍推进。
 
 | 状态 | 含义 | 若输入为角度 |
 | --- | --- | --- |
@@ -52,7 +52,7 @@ Init预先计算 `r_squared=r*r` 和 `damping=2*r`，避免每次重复计算参
 以下展示调用形式，变量由使用者的工程提供：
 
 ```cpp
-#include "adrc/ltd2.hpp"
+#include "adrc/adrc.hpp"
 
 adrc::LTD2 td;
 bool configured = td.Init(r_td, initial_output, initial_rate);
@@ -171,7 +171,7 @@ C++与single结果相同，图中使用原double结果作可视化对照。
 
 ## 9. 加入库与下一步
 
-消费工程只需添加 `src/ltd2.cpp`，头文件路径添加 `include/`。
+消费工程只需添加 `src/adrc.cpp`，头文件路径添加 `include/`。
 主机文件读写、MATLAB和测试程序不属于嵌入式依赖。
 原有LADRC、LESO模块保持独立；调用方可以选择是否在目标前使用TD。
 

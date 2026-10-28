@@ -50,7 +50,7 @@ path_cleanup=onCleanup(@() setenv('PATH',previous_path)); %#ok<NASGU>
 setenv('PATH',[fileparts(compiler) pathsep previous_path]);
 compiler_version=run_checked([quote_path(compiler) ' --version'],'编译器检查');
 base=[quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
-    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','ltd2.cpp')) ' '];
+    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','adrc.cpp')) ' '];
 test_exe=fullfile(output_dir,'ltd2_test.exe'); runner_exe=fullfile(output_dir,'td_runner.exe');
 run_checked([base quote_path(fullfile(repo,'tests','ltd2_test.cpp')) ' -o ' quote_path(test_exe)], ...
     'C++解析响应与接口测试编译');

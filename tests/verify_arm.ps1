@@ -1,7 +1,7 @@
 param([string]$Compiler='C:\ST\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-g++.exe')
 $ErrorActionPreference='Stop'
 $adrcRepo=Split-Path -Parent $PSScriptRoot
-$adrcSources=@('fal','ltd2','td2','leso2','leso3','rleso1','eso3','ladrc1','ladrc2','sef2')
+$adrcSources=@('adrc')
 $adrcTargets=@(@{Name='m4';Cpu='cortex-m4';Fpu='fpv4-sp-d16'},@{Name='m7';Cpu='cortex-m7';Fpu='fpv5-d16'})
 $adrcAr=Join-Path (Split-Path -Parent $Compiler) 'arm-none-eabi-ar.exe'
 if (!(Test-Path -LiteralPath $Compiler) -or !(Test-Path -LiteralPath $adrcAr)) { throw 'ARM compiler/ar not found' }

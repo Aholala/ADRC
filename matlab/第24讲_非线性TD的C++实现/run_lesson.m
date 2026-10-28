@@ -68,7 +68,7 @@ env_cleanup = onCleanup(@() setenv('PATH',previous_env)); %#ok<NASGU>
 setenv('PATH',[fileparts(compiler) pathsep previous_env]);
 compiler_version = run_checked([quote_path(compiler) ' --version'],'编译器检查');
 base = [quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
-    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','td2.cpp')) ' '];
+    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','adrc.cpp')) ' '];
 output_dir = fullfile(repo,'build','lesson24');
 if ~isfolder(output_dir), mkdir(output_dir); end
 test_exe = fullfile(output_dir,'td2_test.exe');

@@ -1,6 +1,5 @@
 // 第19讲：完整C++接入示例。CSV和对象模型仅为主机演示，核心调用顺序见循环中的编号。
-#include "adrc/ladrc2.hpp"
-#include "adrc/ltd2.hpp"
+#include "adrc/adrc.hpp"
 
 #include <algorithm>
 #include <cmath>
