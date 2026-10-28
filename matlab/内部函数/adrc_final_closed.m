@@ -13,7 +13,7 @@ for k=1:numel(time)
         u0=NLSEF_2fal(time(k),[],[x(1)-z(1);x(2)-z(2)],3,f(2),f(3),f(4),f(5),f(6));
         requested=(u0-z(3))/c(1);
     else
-        requested=adrc_nl_feedback(x(1),x(2),z,f);
+        requested=adrc_sef(x(1),x(2),z,f);
     end
     applied=requested;
     if limit>0, applied=max(-cast(limit,precision),min(cast(limit,precision),requested)); end
@@ -22,8 +22,8 @@ for k=1:numel(time)
         zn=z+h*dz(:);
         xn=TD2_NL(time(k),x,tk,2,r,h,h0);xn=xn(:);
     else
-        zn=adrc_nleso3_step(z,applied,measurement,c,h);
-        xn=nltd_step(x,tk,r,h,h0);
+        zn=adrc_eso3_step(z,applied,measurement,c,h);
+        xn=td_step(x,tk,r,h,h0);
     end
     acceleration=double(c(1))*double(applied)+double(force(k));
     yn=y+double(h)*v+0.5*double(h)^2*acceleration; vn=v+double(h)*acceleration;

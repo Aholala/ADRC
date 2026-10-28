@@ -1,9 +1,9 @@
-#ifndef ADRC_NLSEF2_HPP
-#define ADRC_NLSEF2_HPP
+#ifndef ADRC_SEF2_HPP
+#define ADRC_SEF2_HPP
 namespace adrc
 {
     // 原NLSEF_2fal两误差反馈，加显式(b0,z3)扰动补偿；不持有ESO/TD、不限幅。
-    class NLSEF2
+    class SEF2
     {
     public:
         // beta1/beta2是期望输出二阶导数域系数；允许alpha>1。

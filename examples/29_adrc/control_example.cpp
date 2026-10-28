@@ -1,4 +1,4 @@
-// 主机完整组合：非线性TD + 三阶NLESO + 两项fal反馈。生产核心无对象/日志依赖。
+// 主机完整组合：非线性TD + 三阶ESO + 两项fal反馈。生产核心无对象/日志依赖。
 #include "adrc/adrc.hpp"
 #include <algorithm>
 #include <cmath>
@@ -11,12 +11,12 @@ int main(int argc,char** argv)
 {
     if(argc!=4) return 1;
     std::ifstream config(argv[1]),input(argv[2]); std::ofstream output(argv[3]);
-    adrc::NLESO3Config c={}; float b1=0,a1=0,b2=0,a2=0,delta=0,r=0,h0=0,limit=0;
+    adrc::ESO3Config c={}; float b1=0,a1=0,b2=0,a2=0,delta=0,r=0,h0=0,limit=0;
     if(!(config>>c.b0>>c.beta1>>c.beta2>>c.beta3>>c.alpha1>>c.alpha2>>c.delta
         >>b1>>a1>>b2>>a2>>delta>>r>>h0>>limit)) return 1;
     config>>std::ws;
     if(!config.eof() || !std::isfinite(limit) || limit<0) return 1;
-    adrc::NLTD2 td; adrc::NLESO3 observer; adrc::NLSEF2 feedback;
+    adrc::TD2 td; adrc::ESO3 observer; adrc::SEF2 feedback;
     if(!td.Init(r,h0) || !observer.Init(c) || !feedback.Init(c.b0,b1,a1,b2,a2,delta) || !input || !output) return 1;
     std::string line; if(!std::getline(input,line)) return 1;
     if(!line.empty() && line.back()=='\r') line.pop_back();
@@ -50,5 +50,5 @@ int main(int argc,char** argv)
         y=ny;v=nv;++count;
     }
     output.flush(); if(input.bad() || !output || count==0) return 1;
-    std::cout<<"PASS: full NLADRC rows="<<count<<'\n';
+    std::cout<<"PASS: full ADRC rows="<<count<<'\n';
 }

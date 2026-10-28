@@ -1,5 +1,5 @@
-#ifndef ADRC_NLTD2_HPP
-#define ADRC_NLTD2_HPP
+#ifndef ADRC_TD2_HPP
+#define ADRC_TD2_HPP
 
 namespace adrc
 {
@@ -7,10 +7,10 @@ namespace adrc
      * @brief 对应ADRC1/TD2_NL.m与原分段fhan的非线性二阶TD。
      * @note 无HAL、RTOS、动态内存或时钟依赖；同一实例串行访问。
      */
-    class NLTD2
+    class TD2
     {
     public:
-        NLTD2() = default;
+        TD2() = default;
 
         /**
          * @param r 正加速度尺度，单位为输入单位/s²；不是变化率上限。

@@ -1,4 +1,4 @@
-#include "adrc/nleso3.hpp"
+#include "adrc/eso3.hpp"
 #include "adrc/leso3.hpp"
 #include <cmath>
 #include <cstdlib>
@@ -7,9 +7,9 @@
 static void Check(bool c) { if(!c) {std::cerr<<"FAIL: nonlinear ESO\n";std::exit(1);} }
 int main()
 {
-    adrc::NLESO3 n;
+    adrc::ESO3 n;
     Check(!n.Update(0,0,0.001f));
-    adrc::NLESO3Config c={10,3,3,1,0.5f,0.25f,0.01f};
+    adrc::ESO3Config c={10,3,3,1,0.5f,0.25f,0.01f};
     Check(n.Init(c,0.01f,0,0) && n.Update(0,0,0.001f));
     Check(std::fabs(n.GetOutput()-0.00997f)<1e-8f &&
         std::fabs(n.GetRate()+0.0003f)<1e-8f &&
@@ -35,7 +35,7 @@ int main()
     c={-10,12,48,64,0.5f,0.25f,0.01f};
     Check(n.Init(c,2,0,-2) && n.Update(-0.2f,2,0.001f));
     Check(n.GetOutput()==2 && n.GetRate()==0 && n.GetDisturbance()==-2);
-    adrc::NLESO3 other;
+    adrc::ESO3 other;
     Check(other.Init(c) && other.Reset(1,2,3) && n.GetOutput()==2);
-    std::cout<<"PASS: NLESO hand step, old states, failure preservation, linear reduction, signed gain and instances\n";
+    std::cout<<"PASS: ESO hand step, old states, failure preservation, linear reduction, signed gain and instances\n";
 }

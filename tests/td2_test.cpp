@@ -1,4 +1,4 @@
-#include "adrc/nltd2.hpp"
+#include "adrc/td2.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -28,12 +28,12 @@ namespace
 
 int main()
 {
-    adrc::NLTD2 td;
+    adrc::TD2 td;
     float acceleration = 123.0f;
     Check(!td.Calc(0.0f, acceleration) && acceleration == 123.0f && !td.Update(0.0f, 0.01f),
           "uninitialized operations rejected, output preserved");
     Check(td.Init(2.0f, 0.5f), "branch probe Init");
-    const adrc::NLTD2& view = td;
+    const adrc::TD2& view = td;
     Check(view.Calc(0.0f, acceleration), "zero equilibrium Calc");
     Near(acceleration, 0.0, 0.0, "sign zero and equilibrium");
     Check(td.Reset(1.0f) && td.Calc(0.0f, acceleration), "positive far-error branch");
@@ -113,16 +113,16 @@ int main()
     Near(td.GetOutput(), 0.15625, 0.0, "preserved state progression");
     Near(td.GetRate(), 0.0625, 0.0, "failed Init preserves r and h0");
 
-    adrc::NLTD2 overflow;
+    adrc::TD2 overflow;
     Check(overflow.Init(1e-5f, 1.0f, maximum, maximum/2.0f) &&
           overflow.Calc(maximum, acceleration), "finite fhan before state overflow");
     Check(!overflow.Update(maximum, 1.5f), "state overflow rejected");
     Near(overflow.GetOutput(), maximum, 0.0, "overflow preserves output");
     Near(overflow.GetRate(), maximum/2.0f, 0.0, "overflow preserves rate");
-    adrc::NLTD2 tiny_step;
+    adrc::TD2 tiny_step;
     Check(tiny_step.Init(1e-5f, 1e5f) &&
           !tiny_step.Update(0.0f, std::numeric_limits<float>::denorm_min()), "ratio underflow rejected");
-    adrc::NLTD2 other;
+    adrc::TD2 other;
     Check(other.Init(20.0f, 0.01f, -2.0f) && other.Update(-2.0f, 0.01f), "independent equilibrium");
     Near(td.GetOutput(), 0.15625, 0.0, "independent instances");
     std::cout << "PASS: nonlinear TD original branches, hand steps, saturated analytic phase, early braking, "

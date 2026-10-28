@@ -1,4 +1,4 @@
-#include "adrc/nltd2.hpp"
+#include "adrc/td2.hpp"
 
 #include <cmath>
 
@@ -12,7 +12,7 @@ namespace
 
 namespace adrc
 {
-    bool NLTD2::Init(float r, float h0, float output, float rate)
+    bool TD2::Init(float r, float h0, float output, float rate)
     {
         if (!std::isfinite(r) || r <= 0.0f || !std::isfinite(h0) || h0 <= 0.0f ||
             !std::isfinite(output) || !std::isfinite(rate))
@@ -30,7 +30,7 @@ namespace adrc
         return true;
     }
 
-    bool NLTD2::Reset(float output, float rate)
+    bool TD2::Reset(float output, float rate)
     {
         if (!std::isfinite(output) || !std::isfinite(rate))
             return false;
@@ -38,7 +38,7 @@ namespace adrc
         return true;
     }
 
-    bool NLTD2::Calc(float input, float& acceleration) const
+    bool TD2::Calc(float input, float& acceleration) const
     {
         if (r_ <= 0.0f || !std::isfinite(input))
             return false;
@@ -65,7 +65,7 @@ namespace adrc
         return true;
     }
 
-    bool NLTD2::Update(float input, float dt)
+    bool TD2::Update(float input, float dt)
     {
         if (r_ <= 0.0f || !std::isfinite(dt) || dt <= 0.0f)
             return false;

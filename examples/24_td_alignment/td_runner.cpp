@@ -1,4 +1,4 @@
-#include "adrc/nltd2.hpp"
+#include "adrc/td2.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
         parameters[i] = std::strtof(argv[i+3], &end);
         if (end == argv[i+3] || *end != '\0' || !std::isfinite(parameters[i])) return EXIT_FAILURE;
     }
-    adrc::NLTD2 td;
+    adrc::TD2 td;
     if (!td.Init(parameters[0],parameters[1],parameters[2],parameters[3])) return EXIT_FAILURE;
     std::ifstream input(argv[1]);
     std::ofstream output(argv[2]);
@@ -52,5 +52,5 @@ int main(int argc, char** argv)
     }
     output.flush();
     if (input.bad() || !output || count == 0) return EXIT_FAILURE;
-    std::cout << "PASS: NLTD runner rows=" << count << '\n';
+    std::cout << "PASS: TD runner rows=" << count << '\n';
 }

@@ -2,7 +2,7 @@
 
 前置：[第9讲：非线性TD与h0](09_非线性TD.md)、[第18讲：线性TD的C++实现](18_线性TD的C++实现.md)。
 
-**教学归属：非线性TD工程实现。** 本讲将原 `TD2_NL.m` 的两状态更新和分段fhan整理成公共类 `adrc::NLTD2`。
+**教学归属：非线性TD工程实现。** 本讲将原 `TD2_NL.m` 的两状态更新和分段fhan整理成公共类 `adrc::TD2`。
 独立观察TD，不接ESO、控制对象或反馈控制器；加入非线性TD也不意味着已经实现完整非线性ADRC。
 
 ## 1. 原代码和本讲文件对应哪里
@@ -24,10 +24,10 @@ sys(2) = x(2) + h*fhan(x(1)-u,x(2),r,h0);
 
 | 本讲文件 | 作用 |
 | --- | --- |
-| `include/adrc/nltd2.hpp` | 公共接口、单位与时间约定 |
-| `src/nltd2.cpp` | Init、Reset、原fhan计算、前向欧拉更新 |
-| `tests/nltd2_test.cpp` | 分支手算、解析阶段、边界与失败保持测试 |
-| `examples/24_nltd_alignment/td_runner.cpp` | 主机逐拍输入输出，不加入固件控制环 |
+| `include/adrc/td2.hpp` | 公共接口、单位与时间约定 |
+| `src/td2.cpp` | Init、Reset、原fhan计算、前向欧拉更新 |
+| `tests/td2_test.cpp` | 分支手算、解析阶段、边界与失败保持测试 |
+| `examples/24_td_alignment/td_runner.cpp` | 主机逐拍输入输出，不加入固件控制环 |
 | `matlab/第24讲_非线性TD的C++实现/run_lesson.m` | 自动编译、原函数对照与中文图 |
 
 核心不依赖HAL、RTOS、动态内存或系统时钟。每个实例自己保存x1/x2，调用方串行访问。
@@ -60,7 +60,7 @@ fh只是TD内部信号动态，不是电机电流或执行器命令。
 例如：
 
 ```cpp
-adrc::NLTD2 td;
+adrc::TD2 td;
 bool ready = td.Init(20.0f, 0.01f, initial_output, initial_rate);
 ```
 
@@ -190,7 +190,7 @@ $$
 
 MATLAB入口再做两层核对：
 
-- 相同float输入下，C++的更新前后两状态与fh，对照 `nltd_step` 的single更新。
+- 相同float输入下，C++的更新前后两状态与fh，对照 `td_step` 的single更新。
 - 用原 `TD2_NL.m` 自己推进double状态，比较完整轨迹。
 
 原函数只输出两个状态，其本拍fh由第二状态增量除以实际dt反算，含微小的反算舍入。
@@ -217,10 +217,10 @@ MATLAB入口只做主机编译，不依赖ARM工具链；本步没有固件链�
 结果在 `build/lesson24/`：
 
 - 六组 `*_input.csv`、`*_cpp.csv`，含本拍状态、内部加速度与下一拍状态。
-- `alignment_metrics.csv`、`nltd_comparison.csv`：single与原double函数的分层对照。
+- `alignment_metrics.csv`、`td_comparison.csv`：single与原double函数的分层对照。
 - `alignment_result.mat`：变量result，保存教学归属、参数来源、编译器、测试输出与数据。
-- `nltd_cpp_alignment.fig/.png/.svg`：中文教学图。
+- `td_cpp_alignment.fig/.png/.svg`：中文教学图。
 
-固件只需要头文件搜索目录include和 `src/nltd2.cpp`，主机I/O与测试不带入控制任务。
+固件只需要头文件搜索目录include和 `src/td2.cpp`，主机I/O与测试不带入控制任务。
 对象编译、主机核对与板上执行是不同证据层次，不能由前两者推断实机已经验证。
 下一步见[第25讲：fal与非线性ESO入门](25_fal与非线性ESO入门.md)，从原误差纠偏公式理解它和LESO的区别。

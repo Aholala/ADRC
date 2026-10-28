@@ -5,14 +5,14 @@
 ## 1. 拿哪些文件
 
 共享分段幂函数在 `include/adrc/fal.hpp` 和 `src/fal.cpp`。
-三阶非线性ESO在 `include/adrc/nleso3.hpp` 和 `src/nleso3.cpp`。
+三阶非线性ESO在 `include/adrc/eso3.hpp` 和 `src/eso3.cpp`。
 核心只保存配置和三个状态，没有HAL、RTOS、动态内存或系统时钟依赖。
 
 ```cpp
-adrc::NLESO3Config config = {
+adrc::ESO3Config config = {
     40.0f, 60.0f, 120.0f, 252.98221f, 0.5f, 0.25f, 0.01f
 }; // 仅第26讲教学配置，不是机器人默认参数。
-adrc::NLESO3 observer;
+adrc::ESO3 observer;
 bool ready = observer.Init(config, initial_output, initial_rate, initial_disturbance);
 ```
 

@@ -75,7 +75,7 @@ for scenario = 1:numel(case_names)
                 input = sin(sine_frequency*time(k));
                 derivative = sine_frequency*cos(sine_frequency*time(k));
             end
-            [x_next,fh] = nltd_step(x,input,r,h,h0);
+            [x_next,fh] = td_step(x,input,r,h,h0);
             row = row+1;
             records(row,:) = [scenario,h0,time(k),input,x(1),x(2),fh,derivative,r,h];
             reference_errors(scenario,index) = max(reference_errors(scenario,index), ...
@@ -99,7 +99,7 @@ for scenario = 1:numel(case_names)
 end
 
 %% 一个“还没到目标就先减速”的可手算状态
-[braking_next,braking_acceleration] = nltd_step([0.95;2],1,r,h,h0_base);
+[braking_next,braking_acceleration] = td_step([0.95;2],1,r,h,h0_base);
 reference_braking = TD2_NL(0,[0.95;2],1,2,r,h,h0_base);
 assert(braking_acceleration < 0 && braking_next(1) < 1, ...
     'ADRC:BrakingDirection','教学状态应在到达目标前开始减速。');
@@ -113,8 +113,8 @@ T = array2table(records(:,2:end),'VariableNames', ...
     {'h0','time','input','x1','x2','fh','input_derivative','r','h'});
 scenario_column = case_names(records(:,1));
 T = addvars(T,scenario_column(:),'Before',1,'NewVariableNames','scenario');
-writetable(T,fullfile(output_dir,'nltd_sim.csv'));
-save(fullfile(output_dir,'nltd_result.mat'),'T','teaching','reference_errors', ...
+writetable(T,fullfile(output_dir,'td_sim.csv'));
+save(fullfile(output_dir,'td_result.mat'),'T','teaching','reference_errors', ...
     'peak_accelerations','r','h','h0_base','h0_values','model_h0_override', ...
     'braking_next','braking_acceleration');
 fprintf('验证通过：与原TD2_NL.m逐拍对照，最大差值%.3g；恒值收敛、fh界限和提前制动均通过。\n', ...
@@ -160,4 +160,4 @@ for scenario = 1:numel(case_names)
     end
 end
 title(layout,'第9讲｜非线性二阶TD：加速、制动与h0（固定r=20、实际步长h=0.01秒）');
-adrc_export_figure(fig,output_dir,"nltd_response");
+adrc_export_figure(fig,output_dir,"td_response");

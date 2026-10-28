@@ -1,17 +1,17 @@
-#ifndef ADRC_NLESO3_HPP
-#define ADRC_NLESO3_HPP
+#ifndef ADRC_ESO3_HPP
+#define ADRC_ESO3_HPP
 namespace adrc
 {
     // beta是原公式系数，不是未换算的LESO带宽参数。所有字段由调用方提供。
-    struct NLESO3Config
+    struct ESO3Config
     {
         float b0, beta1, beta2, beta3, alpha1, alpha2, delta;
     };
-    class NLESO3
+    class ESO3
     {
     public:
         // 有效域：b0非零，beta>0，0<alpha<=1，delta>0；失败保留配置与状态。
-        bool Init(const NLESO3Config& config, float output=0.0f,
+        bool Init(const ESO3Config& config, float output=0.0f,
                   float rate=0.0f, float disturbance=0.0f);
         bool Reset(float output=0.0f, float rate=0.0f, float disturbance=0.0f);
         // 原ESO2_NL连续导数的前向欧拉。三个右侧都使用旧状态。
@@ -22,7 +22,7 @@ namespace adrc
         float GetRate() const { return z2_; }
         float GetDisturbance() const { return z3_; }
     private:
-        NLESO3Config config_ = {};
+        ESO3Config config_ = {};
         float z1_=0.0f, z2_=0.0f, z3_=0.0f;
     };
 }

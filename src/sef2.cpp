@@ -1,9 +1,9 @@
-#include "adrc/nlsef2.hpp"
+#include "adrc/sef2.hpp"
 #include "adrc/fal.hpp"
 #include <cmath>
 namespace adrc
 {
-    bool NLSEF2::Init(float b0,float b1,float a1,float b2,float a2,float delta)
+    bool SEF2::Init(float b0,float b1,float a1,float b2,float a2,float delta)
     {
         if (!std::isfinite(b0) || b0==0.0f || !std::isfinite(b1) || b1<=0.0f ||
             !std::isfinite(b2) || b2<=0.0f || !std::isfinite(a1) || a1<=0.0f ||
@@ -13,7 +13,7 @@ namespace adrc
         b0_=b0; beta1_=b1; beta2_=b2; alpha1_=a1; alpha2_=a2; delta_=delta;
         return true;
     }
-    bool NLSEF2::Calc(float target,float target_rate,float output,float rate,
+    bool SEF2::Calc(float target,float target_rate,float output,float rate,
                                    float disturbance,float& command) const
     {
         if (b0_==0.0f || !std::isfinite(target) || !std::isfinite(target_rate) ||

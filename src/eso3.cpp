@@ -1,9 +1,9 @@
-#include "adrc/nleso3.hpp"
+#include "adrc/eso3.hpp"
 #include "adrc/fal.hpp"
 #include <cmath>
 namespace adrc
 {
-    bool NLESO3::Init(const NLESO3Config& c,float output,float rate,float disturbance)
+    bool ESO3::Init(const ESO3Config& c,float output,float rate,float disturbance)
     {
         if (!std::isfinite(c.b0) || c.b0==0.0f || !std::isfinite(c.beta1) || c.beta1<=0.0f ||
             !std::isfinite(c.beta2) || c.beta2<=0.0f || !std::isfinite(c.beta3) || c.beta3<=0.0f ||
@@ -17,13 +17,13 @@ namespace adrc
         config_=c; z1_=output; z2_=rate; z3_=disturbance;
         return true;
     }
-    bool NLESO3::Reset(float output,float rate,float disturbance)
+    bool ESO3::Reset(float output,float rate,float disturbance)
     {
         if (!std::isfinite(output) || !std::isfinite(rate) || !std::isfinite(disturbance)) return false;
         z1_=output; z2_=rate; z3_=disturbance;
         return true;
     }
-    bool NLESO3::Update(float input,float measurement,float dt)
+    bool ESO3::Update(float input,float measurement,float dt)
     {
         if (config_.beta1<=0.0f || !std::isfinite(input) || !std::isfinite(measurement) ||
             !std::isfinite(dt) || dt<=0.0f) return false;

@@ -4,12 +4,12 @@
 
 ## 1. 库中哪些组件参与
 
-- NLTD2：原TD2_NL/fhan，输入原始目标，输出平滑值与变化率。
-- NLESO3：原ESO2_NL，使用输出测量与实际输入估计三状态。
-- NLSEF2：原NLSEF_2fal两误差反馈，再按本讲单位约定补偿z3并除b0。
+- TD2：原TD2_NL/fhan，输入原始目标，输出平滑值与变化率。
+- ESO3：原ESO2_NL，使用输出测量与实际输入估计三状态。
+- SEF2：原NLSEF_2fal两误差反馈，再按本讲单位约定补偿z3并除b0。
 
 不新增把三者强绑在一起的公共类。调用方决定是否使用TD、目标速度、最终输出处理和初始化。
-完整可编译示例在 `examples/29_nladrc/control_example.cpp`，读取配置与输入CSV只是主机工具。
+完整可编译示例在 `examples/29_adrc/control_example.cpp`，读取配置与输入CSV只是主机工具。
 
 ## 2. 生产控制任务保留的顺序
 

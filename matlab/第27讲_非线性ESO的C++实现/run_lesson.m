@@ -24,7 +24,7 @@ for scenario=1:2
     z=single([0.1;0;0]);zd=double(z);before=zeros(N,3,'single');after=before;db=zeros(N,3);da=db;
     for k=1:N
         before(k,:)=z';db(k,:)=zd';
-        z=adrc_nleso3_step(z,u(k),measurement(k),c,h);
+        z=adrc_eso3_step(z,u(k),measurement(k),c,h);
         dz=ESO2_NL(t(k),zd,[double(measurement(k));double(u(k))],1,double(c(5)),double(c(6)),double(c(7)),double(c(2:4)),double(c(1)));
         zd=zd+double(h)*dz(:);after(k,:)=z';da(k,:)=zd';
     end
@@ -50,7 +50,7 @@ ax=nexttile(L);plot(ax,t,f,'k:',t,runs{1}.z3);xlim(ax,[1.4 2.2]);title(ax,'原�
 ax=nexttile(L);plot(ax,t,runs{2}.z3);xlim(ax,[4 4.4]);title(ax,'带噪组C++扰动估计');ylabel(ax,'扰动估计（rad/s²）');xlabel(ax,'时间（秒）');
 ax=nexttile(L);bar(ax,[single_error;source_error]');title(ax,'各状态的数值差值：不是总估计误差');ylabel(ax,'最大数值差');legend(ax,'single干净','single带噪','原double干净','原double带噪');xticks(ax,1:3);xticklabels(ax,{'z1','z2','z3'});
 for ax=findall(fig,'Type','axes')',grid(ax,'on');end
-title(L,'第27讲｜独立NLESO3：参数、状态、时序与原函数核对');adrc_export_figure(fig,out,"cpp_nleso_alignment");
+title(L,'第27讲｜独立ESO3：参数、状态、时序与原函数核对');adrc_export_figure(fig,out,"cpp_eso_alignment");
 end
 function write_matrix(file,values,format)
 fid=fopen(file,'w');assert(fid>=0);fprintf(fid,format,values);fclose(fid);
