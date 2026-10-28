@@ -15,12 +15,12 @@
 | z2 | 输出角速度估计 | rad/s | `GetRate()` |
 | z3 | 总扰动估计 | rad/s² | `GetDisturbance()` |
 
-新增的模块为 `adrc::LinearESO3`：
+新增的模块为 `adrc::LESO3`：
 
-- `include/adrc/linear_eso3.hpp`：接口与状态。
-- `src/linear_eso3.cpp`：初始化、复位和一拍更新。
+- `include/adrc/leso3.hpp`：接口与状态。
+- `src/leso3.cpp`：初始化、复位和一拍更新。
 
-已有 `LinearESO2` 仍服务于一阶对象，没有被覆盖或改成三阶。
+已有 `LESO2` 仍服务于一阶对象，没有被覆盖或改成三阶。
 公共模块不依赖HAL、RTOS、动态内存、系统时钟或本机文件读写。
 测试程序中的文件流与日志只用于主机验证，不需要加进嵌入式工程。
 
@@ -52,9 +52,9 @@ const float next_z3 = z3_ - dt * beta3_ * error;
 以下是调用形式，变量由使用者的工程提供：
 
 ```cpp
-#include "adrc/linear_eso3.hpp"
+#include "adrc/leso3.hpp"
 
-adrc::LinearESO3 observer;
+adrc::LESO3 observer;
 bool configured = observer.Init(b0, omega_o,
                                 initial_output, initial_rate, initial_disturbance);
 
@@ -98,7 +98,7 @@ MATLAB通常用double，C++模块使用float；不能要求二者逐位相同。
 
 | 计算 | 运算精度 | 用途 |
 | --- | --- | --- |
-| C++ LinearESO3 | float | 实际被测代码 |
+| C++ LESO3 | float | 实际被测代码 |
 | MATLAB原公式 | single | 检查相同精度与运算顺序 |
 | MATLAB原公式 | double | 对同一份已量化输入进行高精度重算，观察舍入差异 |
 
@@ -133,7 +133,7 @@ CSV按9位有效数字保存float，保证本机回读恢复相同float值；时
 
 ## 7. 主机测试还检查了什么
 
-`tests/linear_eso3_test.cpp` 包含：
+`tests/leso3_test.cpp` 包含：
 
 - 匹配欧拉对象下三重极点误差系统的解析响应，包括已知输入变化。
 - 非零状态的一步手算，检查三个新状态使用旧值。
@@ -167,7 +167,7 @@ run('D:/ACE/Infantry_dev/ADRC/matlab/第16讲_三阶LESO的C++对齐/run_lesson.
 
 输出位于 `build/lesson16/`：
 
-- `linear_eso3_test.exe`、`leso3_runner.exe`：主机测试和逐拍数据驱动程序。
+- `leso3_test.exe`、`leso3_runner.exe`：主机测试和逐拍数据驱动程序。
 - `clean_input.csv`、`noisy_input.csv`：同一份已量化输入。
 - `clean_cpp.csv`、`noisy_cpp.csv`：C++各拍更新前后状态。
 - `leso3_comparison.csv`、`alignment_metrics.csv`：当前状态对照与更新前后最大差值。
@@ -176,7 +176,7 @@ run('D:/ACE/Infantry_dev/ADRC/matlab/第16讲_三阶LESO的C++对齐/run_lesson.
 
 ## 9. 嵌入式使用与证据边界
 
-消费工程只需添加 `src/linear_eso3.cpp`，并将 `include/` 加入头文件搜索路径。
+消费工程只需添加 `src/leso3.cpp`，并将 `include/` 加入头文件搜索路径。
 不需要加入MATLAB、测试程序或CSV驱动程序。仍需由工程提供初始化参数、周期、输入和测量。
 
 本次另完成Cortex-M4与Cortex-M7浮点选项下的核心对象编译，关闭异常与RTTI。

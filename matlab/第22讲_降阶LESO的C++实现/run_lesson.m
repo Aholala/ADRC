@@ -47,10 +47,10 @@ env_cleanup = onCleanup(@() setenv('PATH',previous_env_path)); %#ok<NASGU>
 setenv('PATH',[fileparts(compiler) pathsep previous_env_path]);
 compiler_version = run_checked([quote_path(compiler) ' --version'],'编译器检查');
 base = [quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
-    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','reduced_linear_eso.cpp')) ' '];
-test_exe = fullfile(output_dir,'reduced_linear_eso_test.exe');
+    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','rleso1.cpp')) ' '];
+test_exe = fullfile(output_dir,'rleso1_test.exe');
 runner_exe = fullfile(output_dir,'reduced_leso_runner.exe');
-run_checked([base quote_path(fullfile(repo,'tests','reduced_linear_eso_test.cpp')) ...
+run_checked([base quote_path(fullfile(repo,'tests','rleso1_test.cpp')) ...
     ' -o ' quote_path(test_exe)],'C++解析响应与接口测试编译');
 host_test_output = run_checked(quote_path(test_exe),'C++主机测试');
 run_checked([base quote_path(fullfile(repo,'examples','22_reduced_leso_alignment','reduced_leso_runner.cpp')) ...

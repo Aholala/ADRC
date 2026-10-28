@@ -126,7 +126,7 @@ function sys=mdlOutputs(x,r)
 
 ## 6. 先算当前控制，再推进下一拍 ESO
 
-本节组合类为 `adrc::LinearADRC1`：
+本节组合类为 `adrc::LADRC1`：
 
 - `Init(b0,omega_c,omega_o,z1,z2)`：初始化参数和估计状态，无机器人参数默认值。
 - `Calc(target,command)`：用当前 `z[k]` 计算 `u[k]`，不改变估计状态。
@@ -151,8 +151,8 @@ UpdateObserver(u_applied[k],y_meas[k],dt) -> z[k+1]
 同一实例由调用方串行使用，每个区间只更新一次。
 这一预测式的 `z[k]` 还没有融合当前 `y[k]` 的立即修正，时序与当前观测器不同。
 
-核心是 `include/adrc/linear_adrc.hpp`、`src/linear_adrc.cpp`，内部持有已有的
-`LinearESO2`，不复制观测器方程或增加另一套状态。
+核心是 `include/adrc/ladrc1.hpp`、`src/ladrc1.cpp`，内部持有已有的
+`LESO2`，不复制观测器方程或增加另一套状态。
 
 ## 7. 观察补偿开启与关闭的差别
 

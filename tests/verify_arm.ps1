@@ -1,7 +1,7 @@
 param([string]$Compiler='C:\ST\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-g++.exe')
 $ErrorActionPreference='Stop'
 $adrcRepo=Split-Path -Parent $PSScriptRoot
-$adrcSources=@('fal','linear_td2','nonlinear_td2','linear_eso','linear_eso3','reduced_linear_eso','nonlinear_eso3','linear_adrc','linear_adrc2','nonlinear_feedback2')
+$adrcSources=@('fal','ltd2','nltd2','leso2','leso3','rleso1','nleso3','ladrc1','ladrc2','nlsef2')
 $adrcTargets=@(@{Name='m4';Cpu='cortex-m4';Fpu='fpv4-sp-d16'},@{Name='m7';Cpu='cortex-m7';Fpu='fpv5-d16'})
 $adrcAr=Join-Path (Split-Path -Parent $Compiler) 'arm-none-eabi-ar.exe'
 if (!(Test-Path -LiteralPath $Compiler) -or !(Test-Path -LiteralPath $adrcAr)) { throw 'ARM compiler/ar not found' }
@@ -17,6 +17,8 @@ foreach($adrcTarget in $adrcTargets) {
         $adrcObjects+=$adrcObject
     }
     $adrcArchive=Join-Path $adrcOut 'libadrc.a'
+    # Recreate the archive so renamed sources cannot leave obsolete members.
+    if(Test-Path -LiteralPath $adrcArchive) {Remove-Item -LiteralPath $adrcArchive}
     & $adrcAr rcs $adrcArchive @adrcObjects
     if($LASTEXITCODE -ne 0) { throw 'ARM archive failed' }
     $adrcResults+=@{cpu=$adrcTarget.Cpu;fpu=$adrcTarget.Fpu;float_abi='hard';objects=$adrcObjects.Count;archive=$adrcArchive;bytes=(Get-Item -LiteralPath $adrcArchive).Length;passed=$true}

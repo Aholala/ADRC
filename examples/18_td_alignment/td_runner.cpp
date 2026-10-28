@@ -1,4 +1,4 @@
-#include "adrc/linear_td2.hpp"
+#include "adrc/ltd2.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -23,7 +23,7 @@ int main(int argc, char** argv)
         if (end == argv[i + 3] || *end != '\0' || !std::isfinite(parameters[i]))
             return EXIT_FAILURE;
     }
-    adrc::LinearTD2 td;
+    adrc::LTD2 td;
     if (!td.Init(parameters[0], parameters[1], parameters[2]))
         return EXIT_FAILURE;
     std::ifstream input(argv[1]);

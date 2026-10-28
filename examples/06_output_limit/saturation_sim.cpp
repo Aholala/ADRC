@@ -1,4 +1,4 @@
-#include "adrc/linear_adrc.hpp"
+#include "adrc/ladrc1.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     const char* cases[] = {"transient_saturation", "unreachable_then_release"};
     for (int scenario = 0; scenario < 2; ++scenario)
     {
-        adrc::LinearADRC1 controllers[2];
+        adrc::LADRC1 controllers[2];
         double outputs[2] = {0.0, 0.0};
         for (auto& controller : controllers)
         {

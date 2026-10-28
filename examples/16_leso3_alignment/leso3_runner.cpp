@@ -1,4 +1,4 @@
-#include "adrc/linear_eso3.hpp"
+#include "adrc/leso3.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -23,7 +23,7 @@ int main(int argc, char** argv)
         if (end == argv[i + 3] || *end != '\0' || !std::isfinite(parameters[i]))
             return EXIT_FAILURE;
     }
-    adrc::LinearESO3 observer;
+    adrc::LESO3 observer;
     if (!observer.Init(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4]))
         return EXIT_FAILURE;
     std::ifstream input(argv[1]);

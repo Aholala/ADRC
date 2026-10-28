@@ -21,8 +21,8 @@ ctest=fullfile(fileparts(cmake),'ctest.exe');
 test_output=check([q(ctest) ' --test-dir ' q(directory) ' --output-on-failure']);
 [~,version]=system([q(compiler) ' --version']);
 build=struct('directory',directory,'compiler',compiler,'compiler_version',version, ...
-    'test_output',test_output,'eso_runner',fullfile(directory,'nonlinear_eso_runner.exe'), ...
-    'control_runner',fullfile(directory,'nonlinear_adrc_example.exe'));
+    'test_output',test_output,'eso_runner',fullfile(directory,'nleso_runner.exe'), ...
+    'control_runner',fullfile(directory,'nladrc_example.exe'));
 fprintf('C++静态库、11项主机测试与最终例程：通过。\n');
 end
 function output=check(command)

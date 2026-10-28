@@ -1,4 +1,4 @@
-#include "adrc/linear_adrc2.hpp"
+#include "adrc/ladrc2.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     }
     if (parameters[3] < 0.0f)
         return EXIT_FAILURE;
-    adrc::LinearADRC2 controller;
+    adrc::LADRC2 controller;
     if (!controller.Init(parameters[0], parameters[1], parameters[2]))
         return EXIT_FAILURE;
     std::ifstream input(argv[1]);

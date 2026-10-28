@@ -65,8 +65,8 @@ setenv('PATH',[fileparts(compiler) pathsep previous_path]);
 compiler_version=run_checked([quote_path(compiler) ' --version'],'编译器检查');
 prefix=[quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
     quote_path(fullfile(repo,'include')) ' '];
-tests={'linear_td2_test',{'linear_td2'};'linear_eso3_test',{'linear_eso3'}; ...
-    'linear_adrc2_test',{'linear_eso3','linear_adrc2'}};
+tests={'ltd2_test',{'ltd2'};'leso3_test',{'leso3'}; ...
+    'ladrc2_test',{'leso3','ladrc2'}};
 host_test_outputs=cell(size(tests,1),1);
 for index=1:size(tests,1)
     source_args=''; names=tests{index,2};
@@ -78,8 +78,8 @@ for index=1:size(tests,1)
         ' -o ' quote_path(executable)],['编译核心测试：' tests{index,1}]);
     host_test_outputs{index}=run_checked(quote_path(executable),['运行核心测试：' tests{index,1}]);
 end
-all_sources=[quote_path(fullfile(repo,'src','linear_td2.cpp')) ' ' ...
-    quote_path(fullfile(repo,'src','linear_eso3.cpp')) ' ' quote_path(fullfile(repo,'src','linear_adrc2.cpp')) ' '];
+all_sources=[quote_path(fullfile(repo,'src','ltd2.cpp')) ' ' ...
+    quote_path(fullfile(repo,'src','leso3.cpp')) ' ' quote_path(fullfile(repo,'src','ladrc2.cpp')) ' '];
 example_exe=fullfile(output_dir,'control_example.exe');
 run_checked([prefix all_sources quote_path(fullfile(repo,'examples','19_complete_integration','control_example.cpp')) ...
     ' -o ' quote_path(example_exe)],'编译完整C++示例');
@@ -123,7 +123,7 @@ for scenario=1:2
         if limits(scenario)>0, applied=min(max(request,-limits(scenario)),limits(scenario)); else, applied=request; end
         requests(k)=request; applied_values(k)=applied;
         zs=adrc_leso3_step(zs,applied,single(C.measurement(k)),b0_f,beta1,beta2,beta3,dt_f);
-        td_s=td_linear_step(td_s,targets(k),r_f,dt_f);
+        td_s=ltd_step(td_s,targets(k),r_f,dt_f);
         expected_after(k,:)=[td_s;zs].';
         % 独立double闭环：原TD函数、原LESO矩阵与原控制增益表达式，自行推进对象。
         request_d=(kp*(td_d(1)-xd(3))+kd_signed*xd(4)-xd(5))/b0;

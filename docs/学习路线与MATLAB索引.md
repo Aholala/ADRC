@@ -74,8 +74,8 @@ CSV 中的英文变量名用于数据处理，讲义提供中文解释；面向�
 | `matlab/内部函数/leso_reduced_step.m` | 第20讲，降阶LESO | 重构当前扰动估计，推进一个辅助状态；直接使用当前输出测量 |
 | `matlab/内部函数/adrc_control.m` | LADRC 控制律 | 用目标、输出估计、扰动估计计算控制量，不推进观测器 |
 | `matlab/内部函数/adrc_control2.m` | 二阶LADRC控制律 | 位置反馈、速度反馈、扰动补偿；不推进观测器 |
-| `matlab/内部函数/td_linear_step.m` | 线性TD | 输入一个信号，推进平滑值和变化率两个状态 |
-| `matlab/内部函数/td_nonlinear_step.m` | 非线性TD | 按原TD2_NL更新公式推进两个状态 |
+| `matlab/内部函数/ltd_step.m` | 线性TD | 输入一个信号，推进平滑值和变化率两个状态 |
+| `matlab/内部函数/nltd_step.m` | 非线性TD | 按原TD2_NL更新公式推进两个状态 |
 | `matlab/内部函数/td_fhan.m` | 非线性TD内部算法 | 根据偏差与当前变化率，计算加速或制动量 |
 | `matlab/内部函数/adrc_fal.m` | 第25讲，静态误差映射 | 原ESO使用的分段幂函数，无时间状态，不是独立ESO |
 | `matlab/内部函数/adrc_nleso3_step.m` | 第26讲，三阶非线性ESO | 原连续导数的明确前向欧拉离散化 |

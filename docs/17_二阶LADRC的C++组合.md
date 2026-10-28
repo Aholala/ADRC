@@ -2,21 +2,21 @@
 
 前置：[第16讲：三阶LESO的C++实现](16_三阶LESO的C++实现.md)。
 
-**教学归属：工程实现。** 本讲新增 `adrc::LinearADRC2`，内部组合已有 `LinearESO3`，
+**教学归属：工程实现。** 本讲新增 `adrc::LADRC2`，内部组合已有 `LESO3`，
 将第13讲控制公式落实为可单独调用的C++控制计算和观测更新。
 
 ## 1. 类内部保存什么
 
 - b0、kp、kd是控制计算使用的参数，`kp=wc²、kd=2wc`。
-- 一个LinearESO3保存三个估计状态，不再额外复制一份z1、z2、z3。
+- 一个LESO3保存三个估计状态，不再额外复制一份z1、z2、z3。
 - 不保存电机类型、模式、目标轨迹、输入上限或任务时钟。
 
 新增文件：
 
-- `include/adrc/linear_adrc2.hpp`：接口与组合关系。
-- `src/linear_adrc2.cpp`：参数初始化、静态控制律与观测更新转发。
+- `include/adrc/ladrc2.hpp`：接口与组合关系。
+- `src/ladrc2.cpp`：参数初始化、静态控制律与观测更新转发。
 
-已有LinearADRC1仍对应一阶对象，未被替换。
+已有LADRC1仍对应一阶对象，未被替换。
 
 ## 2. Calc只做控制计算
 
@@ -43,7 +43,7 @@ Calc输出的是请求值，没有在核心里偷偷限制电流。
 bool UpdateObserver(float applied_input, float measurement, float dt);
 ```
 
-它调用内部LinearESO3，用当前拍测量和本区间实际输入，将z[k]推进为z[k+1]。
+它调用内部LESO3，用当前拍测量和本区间实际输入，将z[k]推进为z[k+1]。
 同一区间只更新一次，沿用第16讲的输入、周期与失败保持约定。
 
 对已正确初始化的实例，一拍的调用形式如下，参数由消费工程提供：
@@ -71,7 +71,7 @@ if (calculated)
 ## 4. 初始化、复位与读取
 
 ```cpp
-adrc::LinearADRC2 controller;
+adrc::LADRC2 controller;
 bool configured = controller.Init(b0, omega_c, omega_o,
                                   initial_output, initial_rate, initial_disturbance);
 ```
@@ -103,7 +103,7 @@ Init先检查反馈增益，再初始化临时观测器；全部成功后才替�
 
 ## 6. 主机接口测试
 
-`tests/linear_adrc2_test.cpp` 检查：
+`tests/ladrc2_test.cpp` 检查：
 
 - 位置、速度、扰动各项的符号和整体除以b0的单位约定。
 - const Calc与重复Calc不改变状态；Calc失败不改变输出参数。
@@ -123,7 +123,7 @@ Init检查正且可表示的控制增益，观测器沿用原周期检查。
 MATLAB只提供目标、外部负载与周期；C++自行完成：
 
 1. 将自身对象当前输出量化为float测量。
-2. 用LinearADRC2计算请求。
+2. 用LADRC2计算请求。
 3. 由驱动程序选择无限幅或±0.2 A外部限幅。
 4. 用实际输入更新控制器内部LESO。
 5. 用实际输入与负载推进自己的double精度对象。
@@ -179,7 +179,7 @@ float值本身也有表示误差，限幅断言按相同的float边界比较。
 入口自动编译并运行主机测试、两个自主C++闭环，再做MATLAB核对和中文绘图。
 输出位于 `build/lesson17/`：
 
-- `linear_adrc2_test.exe`、`ladrc2_runner.exe`：主机工具。
+- `ladrc2_test.exe`、`ladrc2_runner.exe`：主机工具。
 - `closed_loop_input.csv`：目标、外部负载和周期。
 - `unlimited_cpp.csv`、`limited_cpp.csv`：C++对象、控制请求、实际输入及观测状态。
 - `closed_loop_comparison.csv`、`alignment_metrics.csv`：独立闭环对照和分层误差指标。
@@ -190,7 +190,7 @@ CSV中before是本拍估计，after是UpdateObserver后的下一拍预测；最�
 
 ## 11. 加入嵌入式工程
 
-消费工程添加 `src/linear_eso3.cpp` 和 `src/linear_adrc2.cpp`，头文件搜索路径添加 `include/`。
+消费工程添加 `src/leso3.cpp` 和 `src/ladrc2.cpp`，头文件搜索路径添加 `include/`。
 不需要加入主机驱动、文件流、MATLAB或测试代码。核心使用C++11，未引入HAL、RTOS或动态内存。
 
 本次两个核心源文件分别完成Cortex-M4/M7浮点选项下的对象编译；

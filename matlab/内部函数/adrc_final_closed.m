@@ -23,7 +23,7 @@ for k=1:numel(time)
         xn=TD2_NL(time(k),x,tk,2,r,h,h0);xn=xn(:);
     else
         zn=adrc_nleso3_step(z,applied,measurement,c,h);
-        xn=td_nonlinear_step(x,tk,r,h,h0);
+        xn=nltd_step(x,tk,r,h,h0);
     end
     acceleration=double(c(1))*double(applied)+double(force(k));
     yn=y+double(h)*v+0.5*double(h)^2*acceleration; vn=v+double(h)*acceleration;

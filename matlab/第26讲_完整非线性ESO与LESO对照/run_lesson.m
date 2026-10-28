@@ -16,7 +16,7 @@ rng_before=rng;stream=RandStream('mt19937ar','Seed',p.seed);noise=p.sigma*randn(
 g=p.eso(7).^(p.eso(5:6)-1);
 A=[-p.eso(2),1,0;-p.eso(3)*g(1),0,1;-p.eso(4)*g(2),0,0];
 radius=max(abs(eig(eye(3)+p.h*A)));
-assert(radius<1 && max(abs([p.eso(2),p.eso(3)*g(1),p.eso(4)*g(2)]-p.linear_beta))<1e-9, ...
+assert(radius<1 && max(abs([p.eso(2),p.eso(3)*g(1),p.eso(4)*g(2)]-p.leso_beta))<1e-9, ...
     'ADRC:LocalGains','局部增益或离散极点检查失败。');
 states=zeros(N,3,2,2);records=cell(2,2);reference_max=zeros(2,2);outer_count=zeros(2,1);
 for scenario=1:2
@@ -25,8 +25,8 @@ for scenario=1:2
         z=p.initial_estimate; zr=z;rows=zeros(N,11);
         for k=1:N
             if kind==1
-                zn=adrc_leso3_step(z,u(k),measurement(k),p.b0,p.linear_beta(1),p.linear_beta(2),p.linear_beta(3),p.h);
-                dz=ESO_2L(t(k),zr,[u(k);measurement(k)],1,p.linear_beta,p.b0);
+                zn=adrc_leso3_step(z,u(k),measurement(k),p.b0,p.leso_beta(1),p.leso_beta(2),p.leso_beta(3),p.h);
+                dz=ESO_2L(t(k),zr,[u(k);measurement(k)],1,p.leso_beta,p.b0);
             else
                 zn=adrc_nleso3_step(z,u(k),measurement(k),p.eso,p.h);
                 dz=ESO2_NL(t(k),zr,[measurement(k);u(k)],1,p.alpha1,p.alpha2,p.delta,p.eso(2:4),p.b0);

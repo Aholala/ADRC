@@ -7,10 +7,10 @@
 
 ## 1. 新模块负责什么
 
-新增 `adrc::LinearTD2`：
+新增 `adrc::LTD2`：
 
-- `include/adrc/linear_td2.hpp`：初始化、复位、更新与状态读取接口。
-- `src/linear_td2.cpp`：参数检查与两个状态的一拍推进。
+- `include/adrc/ltd2.hpp`：初始化、复位、更新与状态读取接口。
+- `src/ltd2.cpp`：参数检查与两个状态的一拍推进。
 
 | 状态 | 含义 | 若输入为角度 |
 | --- | --- | --- |
@@ -52,9 +52,9 @@ Init预先计算 `r_squared=r*r` 和 `damping=2*r`，避免每次重复计算参
 以下展示调用形式，变量由使用者的工程提供：
 
 ```cpp
-#include "adrc/linear_td2.hpp"
+#include "adrc/ltd2.hpp"
 
-adrc::LinearTD2 td;
+adrc::LTD2 td;
 bool configured = td.Init(r_td, initial_output, initial_rate);
 
 // 已正确初始化时，每个区间推进一次。
@@ -98,7 +98,7 @@ Update检查该开区间；边界本身不接受。它不是推荐调参范围�
 
 ## 5. 主机测试依据
 
-`tests/linear_td2_test.cpp` 包含：
+`tests/ltd2_test.cpp` 包含：
 
 - 恒值输入下二重极点离散解析响应，分别核对平滑值和变化率。
 - 非零状态的一拍手算，检查旧状态使用顺序。
@@ -123,8 +123,8 @@ Update检查该开区间；边界本身不接受。它不是推荐调参范围�
 
 两组均从零状态开始。输入、频率和周期先转为float，以相同数值分别驱动：
 
-1. 真实C++ LinearTD2。
-2. MATLAB `td_linear_step.m` 的single运算。
+1. 真实C++ LTD2。
+2. MATLAB `ltd_step.m` 的single运算。
 3. 原 `TD2_L.m` 的double更新分支flag=2。
 
 原函数对照也使用相同的已量化输入和参数，不把两份不同输入的差异误算成算法差异。
@@ -159,19 +159,19 @@ x2是平滑信号的变化率状态，正弦图中允许出现相位滞后。
 
 输出在 `build/lesson18/`：
 
-- `linear_td2_test.exe`、`td_runner.exe`：主机测试与数据驱动程序。
+- `ltd2_test.exe`、`td_runner.exe`：主机测试与数据驱动程序。
 - `constant_input.csv`、`sine_input.csv`：同一份已量化输入。
 - `constant_cpp.csv`、`sine_cpp.csv`：C++各拍Update前后状态。
 - `td_comparison.csv`、`alignment_metrics.csv`：两组共2002拍当前状态对照，以及更新前后最大差值。
 - `alignment_result.mat`：教学归属、来源、参数、编译器与测试输出。
-- `linear_td_cpp_alignment.fig/.png/.svg`：中文教学图。
+- `ltd_cpp_alignment.fig/.png/.svg`：中文教学图。
 
 上排是恒值输入，下排是正弦输入；左边看平滑输出，右边看变化率。
 C++与single结果相同，图中使用原double结果作可视化对照。
 
 ## 9. 加入库与下一步
 
-消费工程只需添加 `src/linear_td2.cpp`，头文件路径添加 `include/`。
+消费工程只需添加 `src/ltd2.cpp`，头文件路径添加 `include/`。
 主机文件读写、MATLAB和测试程序不属于嵌入式依赖。
 原有LADRC、LESO模块保持独立；调用方可以选择是否在目标前使用TD。
 

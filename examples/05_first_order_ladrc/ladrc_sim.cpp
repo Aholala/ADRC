@@ -1,4 +1,4 @@
-#include "adrc/linear_adrc.hpp"
+#include "adrc/ladrc1.hpp"
 
 #include <cmath>
 #include <fstream>
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     const char* cases[] = {"matched_plant", "model_error", "measurement_noise"};
     for (int scenario = 0; scenario < 3; ++scenario)
     {
-        adrc::LinearADRC1 controllers[2];
+        adrc::LADRC1 controllers[2];
         double outputs[2] = {0.0, 0.0};
         for (auto& controller : controllers)
         {

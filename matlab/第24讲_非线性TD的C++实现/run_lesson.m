@@ -68,15 +68,15 @@ env_cleanup = onCleanup(@() setenv('PATH',previous_env)); %#ok<NASGU>
 setenv('PATH',[fileparts(compiler) pathsep previous_env]);
 compiler_version = run_checked([quote_path(compiler) ' --version'],'编译器检查');
 base = [quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
-    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','nonlinear_td2.cpp')) ' '];
+    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','nltd2.cpp')) ' '];
 output_dir = fullfile(repo,'build','lesson24');
 if ~isfolder(output_dir), mkdir(output_dir); end
-test_exe = fullfile(output_dir,'nonlinear_td2_test.exe');
+test_exe = fullfile(output_dir,'nltd2_test.exe');
 runner_exe = fullfile(output_dir,'td_runner.exe');
-run_checked([base quote_path(fullfile(repo,'tests','nonlinear_td2_test.cpp')) ' -o ' quote_path(test_exe)], ...
+run_checked([base quote_path(fullfile(repo,'tests','nltd2_test.cpp')) ' -o ' quote_path(test_exe)], ...
     'C++分支、手算和解析阶段测试编译');
 host_test_output = run_checked(quote_path(test_exe),'C++主机测试');
-run_checked([base quote_path(fullfile(repo,'examples','24_nonlinear_td_alignment','td_runner.cpp')) ...
+run_checked([base quote_path(fullfile(repo,'examples','24_nltd_alignment','td_runner.cpp')) ...
     ' -o ' quote_path(runner_exe)],'C++逐拍驱动编译');
 
 %% 恒值/正弦各比较三个h0，time按实际float周期累计
@@ -109,7 +109,7 @@ for scenario = 1:2
         xs = zeros(2,1,'single'); xd = zeros(2,1);
         for k = 1:N
             before_s = xs; before_d = xd;
-            [xs,acceleration] = td_nonlinear_step(xs,signals(k,scenario),r_f,dt_f,h0_f);
+            [xs,acceleration] = nltd_step(xs,signals(k,scenario),r_f,dt_f,h0_f);
             xd = TD2_NL(time(k),xd,double(signals(k,scenario)),2,double(r_f),double(dt_f),double(h0_f));
             xd = xd(:);
             source_acceleration = (xd(2)-before_d(2))/double(dt_f);
@@ -151,7 +151,7 @@ metrics = table(case_names,h0_column,single_errors(:,1),single_errors(:,2),singl
     'original_double_x1_max','original_double_x2_max','original_double_acceleration_max','peak_rate','peak_acceleration'});
 comparison = vertcat(parts{:});
 writetable(metrics,fullfile(output_dir,'alignment_metrics.csv'));
-writetable(comparison,fullfile(output_dir,'nonlinear_td_comparison.csv'));
+writetable(comparison,fullfile(output_dir,'nltd_comparison.csv'));
 result = struct('teaching',teaching,'parameters',p,'actual_dt',dt_f, ...
     'compiler',compiler,'compiler_version',compiler_version,'host_test_output',host_test_output, ...
     'cpp',{cpp_runs},'original_double',{original_runs},'metrics',metrics,'comparison',comparison);
@@ -196,7 +196,7 @@ for scenario = 1:2
     end
 end
 title(layout,'第24讲｜C++非线性二阶TD：原fhan、固定实际h与不同内部h0');
-adrc_export_figure(fig,output_dir,"nonlinear_td_cpp_alignment");
+adrc_export_figure(fig,output_dir,"nltd_cpp_alignment");
 end
 
 function output = run_checked(command,description)

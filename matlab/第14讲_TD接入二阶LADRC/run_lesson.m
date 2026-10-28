@@ -67,7 +67,7 @@ assert(strcmpi(which('TD2_L'),td_file),'ADRC:WrongReference','当前TD2_L不是�
 for k = 1:numel(time)
     td_states(k,:) = td.';
     original_td_states(k,:) = reference_td.';
-    td_next = td_linear_step(td,raw_target(k),p.td_r,h);
+    td_next = ltd_step(td,raw_target(k),p.td_r,h);
     original_next = TD2_L(time(k),reference_td,raw_target(k),2,p.td_r,h);
     original_next = original_next(:);
     td_reference_error = max(td_reference_error,max(abs(td_next-original_next)));
@@ -88,7 +88,7 @@ closed_transition = open_transition+combined_input*[0 0 -wc^2/b0 -2*wc/b0 -1/b0]
 target_input = combined_input*(wc^2/b0);
 closed_loop_radius = max(abs(eig(closed_transition)));
 assert(closed_loop_radius<1,'ADRC:UnstableConfiguration','当前闭环矩阵不稳定。');
-scenario_names = ["direct","linear_td"];
+scenario_names = ["direct","ltd"];
 labels = ["直接阶跃给定","线性TD的v1给定"];
 records = zeros(numel(time)*2,14);
 reference_errors = zeros(2,1);

@@ -62,5 +62,5 @@ ax=nexttile(L);plot(ax,t,runs{2}.requested,t,runs{2}.applied);title(ax,'反馈�
 ax=nexttile(L);plot(ax,t,double(force),'k:',t,runs{2}.z3);title(ax,'负载只作用于对象，不直接传给算法');ylabel(ax,'扰动（rad/s²）');legend(ax,'真实f','ESO z3');
 ax=nexttile(L);plot(ax,t,runs{3}.requested,t,references{3}.requested,'--');xlim(ax,[7 7.3]);title(ax,'带噪末段控制请求与独立参考');ylabel(ax,'请求输入（A）');legend(ax,'C++','原模块double');
 for ax=findall(fig,'Type','axes')',grid(ax,'on');xlabel(ax,'时间（秒）');end
-title(L,'第29讲｜当前TD/ESO状态算控制 → 最终限幅 → 实际输入推进ESO → TD推进');adrc_export_figure(fig,out,"full_nonlinear_adrc");
+title(L,'第29讲｜当前TD/ESO状态算控制 → 最终限幅 → 实际输入推进ESO → TD推进');adrc_export_figure(fig,out,"full_nladrc");
 end

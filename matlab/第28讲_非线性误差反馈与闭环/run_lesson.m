@@ -46,5 +46,5 @@ ax=nexttile(L);plot(ax,t,runs{1,2}.requested,t,runs{1,2}.applied);title(ax,'非�
 ax=nexttile(L);plot(ax,t,runs{1,2}.td2,t,runs{1,2}.z2);title(ax,'速度误差使用TD变化率减估计变化率');ylabel(ax,'变化率（rad/s）');legend(ax,'TD目标变化率','ESO估计变化率');
 ax=nexttile(L);plot(ax,t,runs{2,1}.requested,t,runs{2,2}.requested);xlim(ax,[7 7.3]);title(ax,'带噪声闭环：没有预设非线性一定更好');ylabel(ax,'请求输入（A）');legend(ax,'线性反馈','非线性反馈');
 for ax=findall(fig,'Type','axes')',grid(ax,'on');xlabel(ax,'时间（秒）');end
-title(L,'第28讲｜原两项fal反馈 + 显式扰动补偿；限幅由调用方处理');adrc_export_figure(fig,out,"nonlinear_feedback_closed");
+title(L,'第28讲｜原两项fal反馈 + 显式扰动补偿；限幅由调用方处理');adrc_export_figure(fig,out,"nlsef_closed");
 end

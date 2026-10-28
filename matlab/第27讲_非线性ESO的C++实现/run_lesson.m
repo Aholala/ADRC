@@ -50,7 +50,7 @@ ax=nexttile(L);plot(ax,t,f,'k:',t,runs{1}.z3);xlim(ax,[1.4 2.2]);title(ax,'原�
 ax=nexttile(L);plot(ax,t,runs{2}.z3);xlim(ax,[4 4.4]);title(ax,'带噪组C++扰动估计');ylabel(ax,'扰动估计（rad/s²）');xlabel(ax,'时间（秒）');
 ax=nexttile(L);bar(ax,[single_error;source_error]');title(ax,'各状态的数值差值：不是总估计误差');ylabel(ax,'最大数值差');legend(ax,'single干净','single带噪','原double干净','原double带噪');xticks(ax,1:3);xticklabels(ax,{'z1','z2','z3'});
 for ax=findall(fig,'Type','axes')',grid(ax,'on');end
-title(L,'第27讲｜独立NonlinearESO3：参数、状态、时序与原函数核对');adrc_export_figure(fig,out,"cpp_nleso_alignment");
+title(L,'第27讲｜独立NLESO3：参数、状态、时序与原函数核对');adrc_export_figure(fig,out,"cpp_nleso_alignment");
 end
 function write_matrix(file,values,format)
 fid=fopen(file,'w');assert(fid>=0);fprintf(fid,format,values);fclose(fid);

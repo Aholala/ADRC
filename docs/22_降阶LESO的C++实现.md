@@ -3,7 +3,7 @@
 前置：[第20讲：降阶LESO推导](20_一阶对象的降阶LESO.md)、[第21讲：降阶LESO的一阶LADRC闭环](21_降阶LESO接入一阶LADRC.md)。
 
 **教学归属：可嵌入式C++实现。** 本讲只把已经学过的独立降阶观测器加入公共库，
-暂不增加控制器组合类、TD或限幅策略。类名为 `adrc::ReducedLinearESO1`。
+暂不增加控制器组合类、TD或限幅策略。类名为 `adrc::RLESO1`。
 
 ## 1. 和参考仓库的关系
 
@@ -27,9 +27,9 @@ $$
 
 | 文件 | 用途 |
 | --- | --- |
-| `include/adrc/reduced_linear_eso.hpp` | 公共接口与时间标签约定 |
-| `src/reduced_linear_eso.cpp` | 初始化、重构、前向欧拉更新 |
-| `tests/reduced_linear_eso_test.cpp` | 主机解析响应、接口与数值边界核对 |
+| `include/adrc/rleso1.hpp` | 公共接口与时间标签约定 |
+| `src/rleso1.cpp` | 初始化、重构、前向欧拉更新 |
+| `tests/rleso1_test.cpp` | 主机解析响应、接口与数值边界核对 |
 | `examples/22_reduced_leso_alignment/reduced_leso_runner.cpp` | CSV同输入回放工具，属于主机例程 |
 
 | 接口 | 含义 |
@@ -51,7 +51,7 @@ $$
 所以这里没有无参数的 `GetDisturbance()`，避免把上一拍缓存值误当作当前估计。
 
 ```cpp
-adrc::ReducedLinearESO1 observer;
+adrc::RLESO1 observer;
 bool initialized = observer.Init(b0, omega_o, first_measurement, initial_f_hat);
 ```
 
@@ -180,7 +180,7 @@ ARM记录包含目标参数、对象文件和当前源文件哈希；MATLAB入�
 - `alignment_result.mat`：变量result，含教学归属、参数、编译器、主机测试输出与数据。
 - `reduced_leso_cpp_alignment.fig/.png/.svg`：中文教学图。
 
-移入消费工程时，只需增加头文件搜索目录include并编译 `src/reduced_linear_eso.cpp`。
+移入消费工程时，只需增加头文件搜索目录include并编译 `src/rleso1.cpp`。
 不要把测试程序、CSV解析或主机日志代码带进固件控制环。
 核心对象编译通过只能说明相关目标编译器接受它，仍需要消费工程链接、板上时序和实际对象验证。
 

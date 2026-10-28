@@ -13,7 +13,7 @@ reference_dir = fullfile('D:/ACE/ADRC/ADRC1', ...
 reference_file = fullfile(reference_dir,'ADRC_1.m');
 assert(isfile(reference_file),'ADRC:MissingReference','请检查ADRC1的ADRC_1.m。');
 source_snapshot = fileread(reference_file);
-core_file = fullfile(repo,'src','reduced_linear_eso.cpp');
+core_file = fullfile(repo,'src','rleso1.cpp');
 core_snapshot = fileread(core_file);
 addpath(reference_dir,'-begin');
 assert(strcmpi(which('ADRC_1'),reference_file),'ADRC:WrongReference','当前ADRC_1不是指定参考文件。');
@@ -47,9 +47,9 @@ setenv('PATH',[fileparts(compiler) pathsep previous_env]);
 compiler_version = run_checked([quote_path(compiler) ' --version'],'编译器检查');
 base = [quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
     quote_path(fullfile(repo,'include')) ' ' quote_path(core_file) ' '];
-test_exe = fullfile(output_dir,'reduced_linear_eso_test.exe');
+test_exe = fullfile(output_dir,'rleso1_test.exe');
 runner_exe = fullfile(output_dir,'control_example.exe');
-run_checked([base quote_path(fullfile(repo,'tests','reduced_linear_eso_test.cpp')) ...
+run_checked([base quote_path(fullfile(repo,'tests','rleso1_test.cpp')) ...
     ' -o ' quote_path(test_exe)],'降阶LESO主机测试编译');
 host_test_output = run_checked(quote_path(test_exe),'降阶LESO主机测试');
 run_checked([base quote_path(fullfile(repo,'examples','23_reduced_ladrc_integration','control_example.cpp')) ...

@@ -50,9 +50,9 @@ path_cleanup=onCleanup(@() setenv('PATH',previous_path)); %#ok<NASGU>
 setenv('PATH',[fileparts(compiler) pathsep previous_path]);
 compiler_version=run_checked([quote_path(compiler) ' --version'],'编译器检查');
 base=[quote_path(compiler) ' -std=c++11 -O2 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -static -I ' ...
-    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','linear_td2.cpp')) ' '];
-test_exe=fullfile(output_dir,'linear_td2_test.exe'); runner_exe=fullfile(output_dir,'td_runner.exe');
-run_checked([base quote_path(fullfile(repo,'tests','linear_td2_test.cpp')) ' -o ' quote_path(test_exe)], ...
+    quote_path(fullfile(repo,'include')) ' ' quote_path(fullfile(repo,'src','ltd2.cpp')) ' '];
+test_exe=fullfile(output_dir,'ltd2_test.exe'); runner_exe=fullfile(output_dir,'td_runner.exe');
+run_checked([base quote_path(fullfile(repo,'tests','ltd2_test.cpp')) ' -o ' quote_path(test_exe)], ...
     'C++解析响应与接口测试编译');
 host_test_output=run_checked(quote_path(test_exe),'C++主机测试');
 run_checked([base quote_path(fullfile(repo,'examples','18_td_alignment','td_runner.cpp')) ...
@@ -87,7 +87,7 @@ for scenario=1:2
     xs=zeros(2,1,'single'); xd=zeros(2,1);
     for k=1:numel(time)
         single_before(k,:)=xs.'; original_before(k,:)=xd.';
-        xs=td_linear_step(xs,signals(k,scenario),r_f,dt_f);
+        xs=ltd_step(xs,signals(k,scenario),r_f,dt_f);
         xd=TD2_L(time(k),xd,double(signals(k,scenario)),2,double(r_f),double(dt_f));
         xd=xd(:);
         single_after(k,:)=xs.'; original_after(k,:)=xd.';
@@ -140,7 +140,7 @@ for scenario=1:2
     ylabel(ax,'输入单位/秒'); xlabel(ax,'时间（秒）'); grid(ax,'on'); legend(ax,'show','Location','best','FontSize',8);
 end
 title(layout,'第18讲｜C++线性二阶TD：相同float输入，与MATLAB single及原TD2_L核对');
-adrc_export_figure(fig,output_dir,"linear_td_cpp_alignment");
+adrc_export_figure(fig,output_dir,"ltd_cpp_alignment");
 end
 
 function output=run_checked(command,description)

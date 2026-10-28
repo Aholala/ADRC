@@ -48,7 +48,7 @@
 
 ## 公式文件的使用方法
 
-`matlab/内部函数/` 中的 `td_fhan.m`、`td_linear_step.m`、`adrc_eso_step.m` 等是函数。
+`matlab/内部函数/` 中的 `td_fhan.m`、`ltd_step.m`、`adrc_eso_step.m` 等是函数。
 它们需要状态、目标和参数；打开后可以阅读公式，仿真请从课程入口运行。
 直接对这些函数点击“运行”，可能提示输入参数不足。
 

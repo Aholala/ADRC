@@ -22,6 +22,21 @@
 - **LESO**：线性扩张状态观测器，作为 LADRC 内部的观测部分。
 - **TD**：跟踪微分器，用于信号过渡和变化率估计，可与控制器组合。
 
+库中的类名和文件名统一使用算法缩写：
+
+| 类名 | 含义 | 头文件 |
+| --- | --- | --- |
+| `LTD2` / `NLTD2` | 线性 / 非线性二阶TD | `ltd2.hpp` / `nltd2.hpp` |
+| `LESO2` / `LESO3` | 二阶 / 三阶线性ESO | `leso2.hpp` / `leso3.hpp` |
+| `RLESO1` | 一个内部状态的降阶线性ESO | `rleso1.hpp` |
+| `NLESO3` / `NLESO3Config` | 三阶非线性ESO及其配置 | `nleso3.hpp` |
+| `LADRC1` / `LADRC2` | 一阶 / 二阶LADRC | `ladrc1.hpp` / `ladrc2.hpp` |
+| `NLSEF2` | 两项非线性状态误差反馈 | `nlsef2.hpp` |
+
+所有类位于 `adrc` 命名空间，头文件位于 `include/adrc/`。
+LESO的数字表示观测器阶次；LADRC的数字表示控制器对应的对象阶次。
+统一头文件仍为 `#include "adrc/adrc.hpp"`。
+
 在 MATLAB 中将当前文件夹切到本仓库，运行最终验收：
 
 ```matlab

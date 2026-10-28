@@ -101,7 +101,7 @@ $$
 control_target = td(1);
 u = adrc_control2(control_target,z,b0,wc);
 z_next = adrc_leso3_step(z,u,measurement,b0,beta1,beta2,beta3,h);
-td_next = td_linear_step(td,raw_target,r_td,h);
+td_next = ltd_step(td,raw_target,r_td,h);
 % 下一采样时刻再保存并使用z_next、td_next。
 ```
 

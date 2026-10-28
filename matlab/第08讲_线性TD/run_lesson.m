@@ -68,7 +68,7 @@ for scenario = 1:numel(case_names)
             reference_errors(scenario,index) = max(reference_errors(scenario,index), ...
                 max(abs(x-reference_x)));
             if k < numel(time)
-                x = td_linear_step(x,input,r,h);
+                x = ltd_step(x,input,r,h);
                 reference_x = TD2_L(time(k),reference_x,input,2,r,h);
                 reference_x = reference_x(:);
                 if scenario == 1
@@ -90,8 +90,8 @@ T = array2table(records(:,2:end),'VariableNames', ...
     {'r','time','input','x1','x2','input_derivative','h'});
 scenario_column = case_names(records(:,1));
 T = addvars(T,scenario_column(:),'Before',1,'NewVariableNames','scenario');
-writetable(T,fullfile(output_dir,'linear_td_sim.csv'));
-save(fullfile(output_dir,'linear_td_result.mat'),'T','teaching','reference_errors', ...
+writetable(T,fullfile(output_dir,'ltd_sim.csv'));
+save(fullfile(output_dir,'ltd_result.mat'),'T','teaching','reference_errors', ...
     'r_base','r_values','h','amplitude','sine_frequency');
 fprintf('验证通过：与原TD2_L.m逐拍对照，最大差值%.3g；恒值响应与离散解析解一致。\n', ...
     max(reference_errors,[],'all'));
@@ -131,4 +131,4 @@ for scenario = 1:numel(case_names)
     end
 end
 title(layout,'第8讲｜线性二阶跟踪微分器TD：参考ADRC1的TD2_L.m，基准h=0.01秒');
-adrc_export_figure(fig,output_dir,"linear_td_response");
+adrc_export_figure(fig,output_dir,"ltd_response");

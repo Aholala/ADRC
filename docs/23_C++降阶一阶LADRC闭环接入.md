@@ -2,7 +2,7 @@
 
 前置：[第21讲：MATLAB降阶LADRC闭环](21_降阶LESO接入一阶LADRC.md)、[第22讲：C++降阶LESO](22_降阶LESO的C++实现.md)。
 
-**教学归属：工程接入。** 本讲把已有 `adrc::ReducedLinearESO1` 接入完整的一阶LADRC主机闭环。
+**教学归属：工程接入。** 本讲把已有 `adrc::RLESO1` 接入完整的一阶LADRC主机闭环。
 不新增公共控制器封装，不改变核心算法，不接TD。
 重点是C++自己根据对象反馈算控制，再与独立MATLAB闭环比较。
 
@@ -96,7 +96,7 @@ $$
 非零负载接管时需要另外对齐初始扰动估计与原输入，不能把本例假设当成实机默认值。
 
 CSV、日志和对象推进只属于主机工具，不加入固件控制环。
-真正移入消费工程的核心仍只有 `include/adrc/reduced_linear_eso.hpp` 与 `src/reduced_linear_eso.cpp`。
+真正移入消费工程的核心仍只有 `include/adrc/rleso1.hpp` 与 `src/rleso1.cpp`。
 目标、测量、周期、限幅、最终输出和失败策略由消费工程提供。
 
 ## 4. 与ADRC1、第21讲的对应关系
