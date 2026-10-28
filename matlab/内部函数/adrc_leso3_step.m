@@ -1,0 +1,16 @@
+function z_next = adrc_leso3_step(z, input, measurement, b0, beta1, beta2, beta3, h)
+%ADRC_LESO3_STEP 第11讲：二阶对象的三阶全阶LESO，前向欧拉预测。
+% 内部公式函数，需要参数；仿真请运行“第11讲_三阶LESO/run_lesson.m”。
+% 对照ADRC1原Motion_acc03.mdl中的LESO状态空间矩阵。
+% z1估计输出，z2估计输出的一阶导数，z3估计总扰动。
+assert(isequal(size(z),[3 1]) && all(isfinite(z)), ...
+    'ADRC:InvalidState','z必须是三个有限状态构成的列向量。');
+assert(all(isfinite([input measurement b0 beta1 beta2 beta3 h])) ...
+    && b0 ~= 0 && beta1 > 0 && beta2 > 0 && beta3 > 0 && h > 0, ...
+    'ADRC:InvalidParameter','检查输入、增益与实际步长。');
+e = z(1)-measurement;
+z_next = [z(1)+h*(z(2)-beta1*e); ...
+          z(2)+h*(z(3)+b0*input-beta2*e); ...
+          z(3)-h*beta3*e];
+assert(all(isfinite(z_next)),'ADRC:NonfiniteState','三阶LESO得到非有限结果。');
+end

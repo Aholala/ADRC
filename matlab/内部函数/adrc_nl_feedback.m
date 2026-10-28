@@ -1,0 +1,9 @@
+function command = adrc_nl_feedback(target,target_rate,z,c)
+% 第28讲：c=[b0,beta1,alpha1,beta2,alpha2,delta]；NLSEF_2fal输出加扰动补偿。
+assert(isequal(size(z),[3 1]) && all(isfinite(z)) && numel(c)==6 && all(isfinite(c)) ...
+    && c(1)~=0 && all(c(2:end)>0) && isfinite(target) && isfinite(target_rate), ...
+    'ADRC:InvalidFeedback','检查非线性反馈参数。');
+command=(c(2)*adrc_fal(target-z(1),c(3),c(6)) ...
+    +c(4)*adrc_fal(target_rate-z(2),c(5),c(6))-z(3))/c(1);
+assert(isfinite(command),'ADRC:NonfiniteFeedback','反馈得到非有限结果。');
+end
