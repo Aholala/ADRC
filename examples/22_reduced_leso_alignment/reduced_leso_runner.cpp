@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
         std::cerr << "Usage: reduced_leso_runner input.csv output.csv b0 omega_o measurement0 disturbance0\n";
         return EXIT_FAILURE;
     }
-    adrc::RLESO1 eso;
+    ADRC::RLESO1 eso;
     if (!eso.Init(Parse(argv[3]), Parse(argv[4]), Parse(argv[5]), Parse(argv[6])))
         return EXIT_FAILURE;
     std::ifstream input(argv[1]);

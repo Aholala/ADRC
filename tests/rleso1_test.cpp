@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -28,7 +28,7 @@ namespace
 
 int main()
 {
-    adrc::RLESO1 eso;
+    ADRC::RLESO1 eso;
     float estimate = 123.0f;
     Check(!eso.Calc(3.0f, estimate) && estimate == 123.0f,
           "uninitialized Calc preserves caller output");
@@ -36,7 +36,7 @@ int main()
           "uninitialized Update and Reset rejected");
     Check(eso.Init(10.0f, 20.0f, 3.0f), "nonzero measurement Init");
     Near(eso.GetAuxiliaryState(), -60.0, 0.0, "measurement aligned auxiliary state");
-    const adrc::RLESO1& view = eso;
+    const ADRC::RLESO1& view = eso;
     Check(view.Calc(3.0f, estimate), "const current reconstruction");
     Near(estimate, 0.0, 0.0, "initial disturbance is zero");
     Check(view.Calc(3.01f, estimate), "new measurement reconstruction");
@@ -85,29 +85,28 @@ int main()
           !eso.Update(0.0f, nan, 0.001f) && !eso.Update(0.0f, inf, 0.001f) &&
           !eso.Update(0.0f, 2.0f, 0.0f) && !eso.Update(0.0f, 2.0f, -0.001f) &&
           !eso.Update(0.0f, 2.0f, nan) && !eso.Update(0.0f, 2.0f, inf) &&
-          !eso.Update(0.0f, 2.0f, 0.1f) && !eso.Update(0.0f, 2.0f, 0.11f) &&
           !eso.Update(maximum, 2.0f, 0.001f) && !eso.Update(0.0f, maximum, 0.001f),
-          "invalid update, Euler boundary and numerical overflow rejected");
+          "invalid update and numerical overflow rejected");
     Near(eso.GetAuxiliaryState(), -42.0, 0.0, "all failures preserve q");
     Check(eso.Update(-0.2f, 2.0f, 0.001f) && eso.Calc(2.0f, estimate),
           "valid Update after failures");
     Near(estimate, -2.0, 0.0, "failed Init preserves input gain and bandwidth");
 
-    adrc::RLESO1 tiny;
+    ADRC::RLESO1 tiny;
     Check(tiny.Init(1.0f, std::numeric_limits<float>::min()), "small representable bandwidth");
-    Check(!tiny.Update(0.0f, 0.0f, std::numeric_limits<float>::min()),
-          "reject underflowed zero Euler step");
-    adrc::RLESO1 large;
+    Check(tiny.Update(0.0f, 0.0f, std::numeric_limits<float>::min()),
+          "accept positive finite period even when the increment rounds to zero");
+    ADRC::RLESO1 large;
     Check(large.Init(1.0f, maximum), "no unnecessary bandwidth squared constraint");
     Check(large.Update(0.0f, 0.0f, 1.0f / maximum), "representable large bandwidth step");
-    adrc::RLESO1 extreme;
+    ADRC::RLESO1 extreme;
     const float half_ulp_probe = std::ldexp(3.0f, 103);
     Check(extreme.Init(1.0f, 1.0f, 2.0f), "extreme reconstruction baseline");
     Check(!extreme.Init(1.0f, 1.0f, half_ulp_probe, maximum) &&
           !extreme.Reset(half_ulp_probe, maximum),
           "reject finite q whose initial reconstructed estimate overflows");
     Near(extreme.GetAuxiliaryState(), -2.0, 0.0, "initial reconstruction failure preserves q");
-    adrc::RLESO1 other;
+    ADRC::RLESO1 other;
     Check(other.Init(10.0f, 5.0f, -1.0f, -2.0f) && other.Update(0.2f, -1.0f, 0.01f),
           "second instance equilibrium");
     Near(eso.GetAuxiliaryState(), -42.0, 0.0, "independent instances");

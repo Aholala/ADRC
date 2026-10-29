@@ -120,11 +120,11 @@ CSV另存 `noisy_z3_rmse`，含义是稳态窗口内z3相对真实f的总误差R
 
 ## 6. 运行和读图
 
-打开根目录 `start.m`，当前默认 `lesson_id=12`，按F5运行整个文件。
-也可直接打开 `matlab/第12讲_LESO带宽与噪声/run_lesson.m`。
+打开根目录 `start.m`，当前默认 `number=12`，按F5运行整个文件。
+也可直接打开 `matlab/教学/第12讲_LESO带宽与噪声/run_lesson.m`。
 
 ```matlab
-run('D:/ACE/Infantry_dev/ADRC/matlab/第12讲_LESO带宽与噪声/run_lesson.m')
+run('D:/ACE/Infantry_dev/ADRC/matlab/教学/第12讲_LESO带宽与噪声/run_lesson.m')
 ```
 
 本讲依赖MATLAB与上述本机参考文件，不需要启动Simulink模型。

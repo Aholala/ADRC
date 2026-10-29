@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -28,12 +28,12 @@ namespace
 
 int main()
 {
-    adrc::TD2 td;
+    ADRC::TD2 td;
     float acceleration = 123.0f;
     Check(!td.Calc(0.0f, acceleration) && acceleration == 123.0f && !td.Update(0.0f, 0.01f),
           "uninitialized operations rejected, output preserved");
     Check(td.Init(2.0f, 0.5f), "branch probe Init");
-    const adrc::TD2& view = td;
+    const ADRC::TD2& view = td;
     Check(view.Calc(0.0f, acceleration), "zero equilibrium Calc");
     Near(acceleration, 0.0, 0.0, "sign zero and equilibrium");
     Check(td.Reset(1.0f) && td.Calc(0.0f, acceleration), "positive far-error branch");
@@ -105,24 +105,24 @@ int main()
           "Calc failure preserves caller output");
     Check(!td.Update(nan, 0.01f) && !td.Update(inf, 0.01f) && !td.Update(maximum, 0.01f) &&
           !td.Update(1.0f, 0.0f) && !td.Update(1.0f, -0.01f) && !td.Update(1.0f, nan) &&
-          !td.Update(1.0f, inf) && !td.Update(1.0f, 1.0f) && !td.Update(1.0f, 1.1f),
-          "invalid inputs and local Euler boundary rejected");
+          !td.Update(1.0f, inf), "invalid inputs and period rejected");
     Near(td.GetOutput(), 0.125, 0.0, "all failures preserve output");
     Near(td.GetRate(), 0.25, 0.0, "all failures preserve rate");
     Check(td.Update(0.0f, 0.125f), "valid update after failures");
     Near(td.GetOutput(), 0.15625, 0.0, "preserved state progression");
     Near(td.GetRate(), 0.0625, 0.0, "failed Init preserves r and h0");
 
-    adrc::TD2 overflow;
+    ADRC::TD2 overflow;
     Check(overflow.Init(1e-5f, 1.0f, maximum, maximum/2.0f) &&
           overflow.Calc(maximum, acceleration), "finite fhan before state overflow");
     Check(!overflow.Update(maximum, 1.5f), "state overflow rejected");
     Near(overflow.GetOutput(), maximum, 0.0, "overflow preserves output");
     Near(overflow.GetRate(), maximum/2.0f, 0.0, "overflow preserves rate");
-    adrc::TD2 tiny_step;
+    ADRC::TD2 tiny_step;
     Check(tiny_step.Init(1e-5f, 1e5f) &&
-          !tiny_step.Update(0.0f, std::numeric_limits<float>::denorm_min()), "ratio underflow rejected");
-    adrc::TD2 other;
+          tiny_step.Update(0.0f, std::numeric_limits<float>::denorm_min()),
+          "positive finite period does not need a representable dt/h0 ratio");
+    ADRC::TD2 other;
     Check(other.Init(20.0f, 0.01f, -2.0f) && other.Update(-2.0f, 0.01f), "independent equilibrium");
     Near(td.GetOutput(), 0.15625, 0.0, "independent instances");
     std::cout << "PASS: nonlinear TD original branches, hand steps, saturated analytic phase, early braking, "

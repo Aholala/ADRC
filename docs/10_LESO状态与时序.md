@@ -81,7 +81,7 @@ z_next = [z(1)+h*(z(2)+b0*u-beta1*e);
 第4步完成后，结果应与下一拍时间标签对应，不能当作刚获得的当前拍校正值。
 若以后改成“预测到当前，再用当前测量修正”的观测器，需要另外设计时序和增益。
 
-嵌入式 `adrc::LESO2::Update()` 也按这一约定工作。
+嵌入式 `ADRC::LESO2::Update()` 也按这一约定工作。
 调用前getter读到 `z[k]`，成功调用后读到 `z[k+1]`，每个区间更新一次。
 以后接入控制律时，还要明确何时读取状态、计算控制量和限幅，并传入与所建模型对应的实际输入。
 
@@ -140,12 +140,12 @@ $$
 
 ## 6. 怎么运行、怎么看图
 
-打开项目根目录 `start.m`，当前默认 `lesson_id=10`，点击“运行”（F5）。
-也可直接打开 `matlab/第10讲_二阶LESO状态与时序/run_lesson.m` 运行整个文件。
+打开项目根目录 `start.m`，当前默认 `number=10`，点击“运行”（F5）。
+也可直接打开 `matlab/教学/第10讲_二阶LESO状态与时序/run_lesson.m` 运行整个文件。
 命令行方式：
 
 ```matlab
-run('D:/ACE/Infantry_dev/ADRC/matlab/第10讲_二阶LESO状态与时序/run_lesson.m')
+run('D:/ACE/Infantry_dev/ADRC/matlab/教学/第10讲_二阶LESO状态与时序/run_lesson.m')
 ```
 
 需要MATLAB及上述本机ADRC1参考文件，不需要启动Simulink。

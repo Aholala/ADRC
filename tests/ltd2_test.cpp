@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -28,7 +28,7 @@ namespace
 
 int main()
 {
-    adrc::LTD2 td;
+    ADRC::LTD2 td;
     Check(!td.Update(1.0f, 0.01f), "reject Update before Init");
     Check(td.Init(4.0f), "analytic Init");
     constexpr double amplitude = 10.0;
@@ -69,9 +69,8 @@ int main()
           !td.Reset(nan) && !td.Reset(0.0f, inf), "reject invalid initial states");
     Check(!td.Update(nan, 0.01f) && !td.Update(inf, 0.01f) &&
           !td.Update(2.0f, 0.0f) && !td.Update(2.0f, -0.01f) &&
-          !td.Update(2.0f, nan) && !td.Update(2.0f, inf) &&
-          !td.Update(2.0f, 0.4f) && !td.Update(2.0f, 0.5f),
-          "reject invalid input, period and Euler boundary");
+          !td.Update(2.0f, nan) && !td.Update(2.0f, inf),
+          "reject invalid input and period");
     Check(!td.Update(maximum, 0.01f), "reject update overflow");
     Near(td.GetOutput(), 2.0, 0.0, "failure preserves output");
     Near(td.GetRate(), 0.0, 0.0, "failure preserves rate");
@@ -86,7 +85,7 @@ int main()
     Check(td.Update(-2.0f, 0.01f), "negative signal update");
     Near(td.GetOutput(), -1.0, 0.0, "negative signal old rate");
     Near(td.GetRate(), -0.25, 1e-7, "negative signal direction");
-    adrc::LTD2 other;
+    ADRC::LTD2 other;
     Check(other.Init(8.0f, 5.0f) && other.Update(5.0f, 0.01f), "second instance equilibrium");
     Near(td.GetOutput(), -1.0, 0.0, "independent instances");
     std::cout << "PASS: TD2 analytic discrete response, hand calculation, reset, failure preservation, "

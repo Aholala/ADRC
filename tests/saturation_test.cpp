@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -27,7 +27,7 @@ namespace
 
     Result Run(bool feed_applied, bool friction)
     {
-        adrc::LADRC1 controller;
+        ADRC::LADRC1 controller;
         Check(controller.Init(10.0f, 8.0f, 40.0f), "saturation Init");
         constexpr float limit = 0.2f;
         constexpr double dt = 0.001;

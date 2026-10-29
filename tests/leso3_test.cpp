@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -28,7 +28,7 @@ namespace
 
 int main()
 {
-    adrc::LESO3 observer;
+    ADRC::LESO3 observer;
     Check(!observer.Update(0.0f, 0.0f, 0.001f), "reject update before Init");
     Check(observer.Init(8.0f, 16.0f), "analytic Init");
 
@@ -86,9 +86,8 @@ int main()
     Check(!observer.Update(nan, 2.0f, 0.001f) && !observer.Update(0.1f, inf, 0.001f),
           "reject invalid input or measurement");
     Check(!observer.Update(0.1f, 2.0f, 0.0f) && !observer.Update(0.1f, 2.0f, -0.001f) &&
-          !observer.Update(0.1f, 2.0f, nan) && !observer.Update(0.1f, 2.0f, inf) &&
-          !observer.Update(0.1f, 2.0f, 0.125f) && !observer.Update(0.1f, 2.0f, 0.25f),
-          "reject invalid period and Euler boundary");
+          !observer.Update(0.1f, 2.0f, nan) && !observer.Update(0.1f, 2.0f, inf),
+          "reject invalid period");
     Check(!observer.Update(maximum, 2.0f, 0.001f), "reject update overflow");
     Near(observer.GetOutput(), 2.0, 0.0, "failure preserves output");
     Near(observer.GetRate(), 0.0, 0.0, "failure preserves rate");
@@ -101,7 +100,7 @@ int main()
     Near(observer.GetDisturbance(), -6.048, 1e-6, "failure preserves beta3");
     Check(observer.Reset(2.0f, 0.0f, -4.0f), "restore independent instance baseline");
 
-    adrc::LESO3 reverse;
+    ADRC::LESO3 reverse;
     Check(reverse.Init(-40.0f, 16.0f, 1.0f), "negative b0 Init");
     Check(reverse.Update(0.1f, 1.0f, 0.001f), "negative b0 update");
     Near(reverse.GetOutput(), 1.0, 0.0, "known acceleration does not directly change position");

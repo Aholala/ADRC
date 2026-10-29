@@ -159,11 +159,11 @@ velocity_next = velocity+h*acceleration;
 
 ## 6. 在MATLAB中运行
 
-根目录 `start.m` 已默认选择 `lesson_id=11`，打开后按F5运行整个文件。
-也可直接打开中文目录 `matlab/第11讲_三阶LESO/run_lesson.m`。
+根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
+也可直接打开中文目录 `matlab/教学/第11讲_三阶LESO/run_lesson.m`。
 
 ```matlab
-run('D:/ACE/Infantry_dev/ADRC/matlab/第11讲_三阶LESO/run_lesson.m')
+run('D:/ACE/Infantry_dev/ADRC/matlab/教学/第11讲_三阶LESO/run_lesson.m')
 ```
 
 本讲需要MATLAB和上述本机参考文件，读取模型文本不需要启动Simulink。

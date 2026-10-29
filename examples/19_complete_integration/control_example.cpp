@@ -1,5 +1,5 @@
 // 第19讲：完整C++接入示例。CSV和对象模型仅为主机演示，核心调用顺序见循环中的编号。
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -29,8 +29,8 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
 
     // 本例对象从零角度、零速度、零扰动开始，初值与之匹配。
-    adrc::LTD2 td;
-    adrc::LADRC2 controller;
+    ADRC::LTD2 td;
+    ADRC::LADRC2 controller;
     if (!td.Init(parameters[3], 0.0f, 0.0f) ||
         !controller.Init(parameters[0], parameters[1], parameters[2], 0.0f, 0.0f, 0.0f))
         return EXIT_FAILURE;

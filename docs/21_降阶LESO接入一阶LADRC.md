@@ -202,8 +202,8 @@ MATLAB搜索路径、环境PATH和全局rng保持原状，中文图形已检查�
 
 ## 8. 一键运行与下一步
 
-打开根目录 `start.m`，设置 `lesson_id=21`，按F5运行整个文件。
-也可直接运行 `matlab/第21讲_降阶LESO接入一阶LADRC/run_lesson.m`。
+打开根目录 `start.m`，设置 `number=21`，按F5运行整个文件。
+也可直接运行 `matlab/教学/第21讲_降阶LESO接入一阶LADRC/run_lesson.m`。
 只需要MATLAB和本机ADRC1参考文件，不需要g++、MEX或Simulink。
 
 本讲完成理想教学对象的降阶LADRC闭环验证，没有新增公共C++实现或板上验证。

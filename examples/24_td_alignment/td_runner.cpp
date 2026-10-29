@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
         parameters[i] = std::strtof(argv[i+3], &end);
         if (end == argv[i+3] || *end != '\0' || !std::isfinite(parameters[i])) return EXIT_FAILURE;
     }
-    adrc::TD2 td;
+    ADRC::TD2 td;
     if (!td.Init(parameters[0],parameters[1],parameters[2],parameters[3])) return EXIT_FAILURE;
     std::ifstream input(argv[1]);
     std::ofstream output(argv[2]);

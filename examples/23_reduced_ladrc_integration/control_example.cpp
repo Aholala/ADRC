@@ -1,5 +1,5 @@
 // 第23讲：独立降阶LESO接入一阶LADRC。编号1～5为控制流程，编号6仅为主机对象。
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     output << "time,target,disturbance,noise,dt,measurement,true_y,q_before,f_hat,"
               "requested_input,applied_input,observer_input,q_after,y_next\n";
 
-    adrc::RLESO1 observer;
+    ADRC::RLESO1 observer;
     double y = parameters[4];
     unsigned int count = 0;
     while (std::getline(input, line))

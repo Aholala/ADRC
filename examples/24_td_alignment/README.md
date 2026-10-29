@@ -6,6 +6,6 @@
 从根目录 `start.m` 选择24运行，MATLAB会自动编译核心、主机测试和本工具。
 原库默认参数、原独立模型的零h0覆盖值、两组附加h0比较均在讲义中注明。
 
-可嵌入式核心为 `include/adrc/adrc.hpp` 与 `src/adrc.cpp`。
+可嵌入式核心为 `main/ALG_ADRC.hpp` 与 `main/ALG_ADRC.cpp`。
 CSV读写与命令行解析只属于主机验证，不加入固件控制环。
 完整说明见 `docs/24_非线性TD的C++实现.md`。

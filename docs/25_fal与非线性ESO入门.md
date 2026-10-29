@@ -185,8 +185,8 @@ $$
 
 ## 7. 运行、文件和验证边界
 
-打开根目录 `start.m`，设置 `lesson_id=25`，按F5运行整个文件。
-也可直接打开 `matlab/第25讲_fal与非线性ESO入门/run_lesson.m`。
+打开根目录 `start.m`，设置 `number=25`，按F5运行整个文件。
+也可直接打开 `matlab/教学/第25讲_fal与非线性ESO入门/run_lesson.m`。
 只需要MATLAB和本机ADRC1源文件，不需要g++、MEX或启动Simulink。
 
 四张图依次看：完整静态形状、delta影响、单独纠偏误差、同一份小噪声的静态映射。

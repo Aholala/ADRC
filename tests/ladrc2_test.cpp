@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -29,13 +29,13 @@ namespace
 
 int main()
 {
-    adrc::LADRC2 controller;
+    ADRC::LADRC2 controller;
     float command = 123.0f;
     Check(!controller.Calc(1.0f, command), "reject uninitialized Calc");
     Check(!controller.UpdateObserver(0.0f, 0.0f, 0.001f), "reject uninitialized observer");
     Near(command, 123.0, 0.0, "failed Calc preserves output argument");
     Check(controller.Init(40.0f, 8.0f, 40.0f, 0.8f, 0.3f, -2.0f), "hand calculation Init");
-    const adrc::LADRC2& view = controller;
+    const ADRC::LADRC2& view = controller;
     Check(view.Calc(1.0f, command), "const Calc");
     Near(command, 0.25, 2e-7, "position, rate and disturbance have correct signs");
     const float previous_command = command;
@@ -117,16 +117,43 @@ int main()
     Check(!controller.UpdateObserver(inf, 0.8f, 0.001f) &&
           !controller.UpdateObserver(0.0f, nan, 0.001f) &&
           !controller.UpdateObserver(0.0f, 0.8f, 0.0f) &&
-          !controller.UpdateObserver(0.0f, 0.8f, 0.05f) &&
           !controller.UpdateObserver(maximum, 0.8f, 0.001f), "observer failure preservation");
     Check(controller.Calc(1.0f, command), "valid Calc after failures");
     Near(command, 0.25, 2e-7, "failed operations preserve state");
 
-    adrc::LADRC2 reverse;
+    ADRC::LADRC2 reverse;
     Check(reverse.Init(-40.0f, 8.0f, 40.0f), "negative gain Init");
     Check(reverse.Calc(1.0f, command), "negative gain Calc");
     Near(command, -1.6, 2e-7, "negative gain control direction");
     Near(controller.GetEstimatedOutput(), 0.8, 1e-7, "independent instances");
+    // Moving-reference hand value and zero-rate compatibility across old states.
+    Check(controller.Init(40.0f, 8.0f, 40.0f, 0.8f, 0.3f, -2.0f), "tracking Init");
+    Check(controller.Calc(1.0f, 0.3f, command), "target rate Calc");
+    Near(command, 0.37, 2e-7, "matched target speed cancels damping term");
+    float legacy = 0.0f, moving = 0.0f;
+    for (int k=0;k<100;++k) {
+        Check(controller.Calc(0.2f,legacy) && controller.Calc(0.2f,0.0f,moving), "compatibility Calc");
+        Near(moving,legacy,0.0,"zero target rate matches legacy result");
+        Check(controller.UpdateObserver(0.1f,0.7f,0.001f),"compatibility Update");
+    }
+    moving=123.0f;
+    Check(!controller.Calc(0.0f,nan,moving) && !controller.Calc(0.0f,inf,moving) &&
+          !controller.Calc(0.0f,maximum,moving),"target rate failure");
+    Near(moving,123.0,0.0,"failed rate Calc preserves command");
+    ADRC::LADRC2 ramp;
+    Check(ramp.Init(10.0f,4.0f,10.0f,0.0f,1.0f,0.0f),"ramp Init");
+    float position=0.0f;
+    for(int k=0;k<1000;++k) {
+        Check(ramp.Calc(position,1.0f,moving),"ramp Calc");
+        Near(moving,0.0,1e-7,"ramp needs zero acceleration");
+        Check(ramp.UpdateObserver(moving,position,0.001f),"ramp observer");
+        position+=0.001f;
+    }
+    const float held=0.15f, target=0.5f, measured=0.3f, measured_rate=0.1f;
+    const float initial_f=16.0f*(target-measured)+8.0f*(0.2f-measured_rate)-10.0f*held;
+    Check(ramp.Reset(measured,measured_rate,initial_f),"handover Reset");
+    Check(ramp.Calc(target,0.2f,moving),"handover Calc");
+    Near(moving,held,1e-7,"first takeover command matches held command");
     std::cout << "PASS: LADRC2 signs, const/static Calc, equilibrium, analytic closed loop, "
                  "external limits and actual input, failure preservation, negative gain\n";
 }

@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -6,9 +6,9 @@
 static void Check(bool c) { if(!c) {std::cerr<<"FAIL: nonlinear ESO\n";std::exit(1);} }
 int main()
 {
-    adrc::ESO3 n;
+    ADRC::ESO3 n;
     Check(!n.Update(0,0,0.001f));
-    adrc::ESO3Config c={10,3,3,1,0.5f,0.25f,0.01f};
+    ADRC::ESO3Config c={10,3,3,1,0.5f,0.25f,0.01f};
     Check(n.Init(c,0.01f,0,0) && n.Update(0,0,0.001f));
     Check(std::fabs(n.GetOutput()-0.00997f)<1e-8f &&
         std::fabs(n.GetRate()+0.0003f)<1e-8f &&
@@ -22,7 +22,7 @@ int main()
     Check(n.GetOutput()==z1 && n.GetRate()==z2 && n.GetDisturbance()==z3);
     // alpha=1时，与全阶LESO比较一整条自主轨迹（允许乘法结合次序的float舍入）。
     c={10,12,48,64,1,1,0.01f};
-    adrc::LESO3 l;
+    ADRC::LESO3 l;
     Check(n.Init(c) && l.Init(10,4));
     for(int k=0;k<3000;++k) {
         float y=static_cast<float>(std::sin(k*0.001));
@@ -34,7 +34,7 @@ int main()
     c={-10,12,48,64,0.5f,0.25f,0.01f};
     Check(n.Init(c,2,0,-2) && n.Update(-0.2f,2,0.001f));
     Check(n.GetOutput()==2 && n.GetRate()==0 && n.GetDisturbance()==-2);
-    adrc::ESO3 other;
+    ADRC::ESO3 other;
     Check(other.Init(c) && other.Reset(1,2,3) && n.GetOutput()==2);
     std::cout<<"PASS: ESO hand step, old states, failure preservation, linear reduction, signed gain and instances\n";
 }

@@ -149,11 +149,11 @@ TD没有替代LESO，也没有改变负载所需的维持作用。
 
 ## 8. 运行与读图
 
-根目录 `start.m` 已默认选择 `lesson_id=14`，按F5运行整个文件。
-也可直接打开 `matlab/第14讲_TD接入二阶LADRC/run_lesson.m`。
+根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
+也可直接打开 `matlab/教学/第14讲_TD接入二阶LADRC/run_lesson.m`。
 
 ```matlab
-run('D:/ACE/Infantry_dev/ADRC/matlab/第14讲_TD接入二阶LADRC/run_lesson.m')
+run('D:/ACE/Infantry_dev/ADRC/matlab/教学/第14讲_TD接入二阶LADRC/run_lesson.m')
 ```
 
 需要MATLAB和上述本机ADRC1参考文件，不需要启动Simulink模型。

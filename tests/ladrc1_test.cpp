@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -27,7 +27,7 @@ namespace
 
     double RunConstantLoad(bool compensate)
     {
-        adrc::LADRC1 controller;
+        ADRC::LADRC1 controller;
         Check(controller.Init(10.0f, 8.0f, 40.0f), "load test Init");
         double output = 0.0;
         for (int k = 0; k < 4000; ++k)
@@ -47,7 +47,7 @@ namespace
 
 int main()
 {
-    adrc::LADRC1 controller;
+    ADRC::LADRC1 controller;
     float command = 123.0f;
     Check(!controller.Calc(1.0f, command), "reject Calc before Init");
     Near(command, 123.0, 0.0, "failed Calc preserves caller output");

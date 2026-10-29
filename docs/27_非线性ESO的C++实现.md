@@ -4,15 +4,15 @@
 
 ## 1. 拿哪些文件
 
-共享分段幂函数Fal与三阶非线性ESO3统一位于 `include/adrc/adrc.hpp` 和 `src/adrc.cpp`，
+共享分段幂函数Fal与三阶非线性ESO3统一位于 `main/ALG_ADRC.hpp` 和 `main/ALG_ADRC.cpp`，
 分别在“基础函数”和“观测器”分区，接口仍独立使用。
 核心只保存配置和三个状态，没有HAL、RTOS、动态内存或系统时钟依赖。
 
 ```cpp
-adrc::ESO3Config config = {
+ADRC::ESO3Config config = {
     40.0f, 60.0f, 120.0f, 252.98221f, 0.5f, 0.25f, 0.01f
 }; // 仅第26讲教学配置，不是机器人默认参数。
-adrc::ESO3 observer;
+ADRC::ESO3 observer;
 bool ready = observer.Init(config, initial_output, initial_rate, initial_disturbance);
 ```
 
@@ -52,8 +52,8 @@ MATLAB两组各6001次更新：
 
 ## 4. 运行
 
-第27讲入口自动用CMake构建静态库、运行11项主机测试，再运行C++观测器CSV驱动。
+第27讲入口自动用CMake构建静态库、运行当前主机测试（现为14项），再运行C++观测器CSV驱动。
 需要MATLAB、g++、CMake、Ninja与ADRC1，不需要MEX/Simulink。
-入口为 `matlab/第27讲_非线性ESO的C++实现/run_lesson.m`；输出在 `build/lesson27/`，MAT变量为result。
+入口为 `matlab/教学/第27讲_非线性ESO的C++实现/run_lesson.m`；输出在 `build/lesson27/`，MAT变量为result。
 图、CSV、指标和编译测试输出均保存，原参考文件不变。
 这是主机验证，固件链接和板上时序留给消费工程。

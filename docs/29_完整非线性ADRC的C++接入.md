@@ -6,7 +6,7 @@
 
 - TD2：原TD2_NL/fhan，输入原始目标，输出平滑值与变化率。
 - ESO3：原ESO2_NL，使用输出测量与实际输入估计三状态。
-- SEF2：原NLSEF_2fal两误差反馈，再按本讲单位约定补偿z3并除b0。
+- NLESF2：原NLSEF_2fal两误差反馈，再按本讲单位约定补偿z3并除b0。
 
 不新增把三者强绑在一起的公共类。调用方决定是否使用TD、目标速度、最终输出处理和初始化。
 完整可编译示例在 `examples/29_adrc/control_example.cpp`，读取配置与输入CSV只是主机工具。
@@ -61,9 +61,9 @@ C++自己维护double精确ZOH对象、float测量与算法状态，输入文件
 
 ## 4. 运行与证据
 
-入口 `matlab/第29讲_完整非线性ADRC的C++接入/run_lesson.m`。
+入口 `matlab/教学/第29讲_完整非线性ADRC的C++接入/run_lesson.m`。
 需要MATLAB、g++、CMake、Ninja、ADRC1，不需MEX/Simulink。
-它构建整库与11项主机测试，运行三条自主闭环，再生成两层对照和中文图。
+它构建整库与当前主机测试（现为14项），运行三条自主闭环，再生成两层对照和中文图。
 结果在 `build/lesson29/`：三组配置/输入/C++日志、integration_metrics.csv、integration_result.mat及完整闭环图。
 
 这验证了主机组合和理想对象，未替代固件链接、板上采样时序或电机实验。

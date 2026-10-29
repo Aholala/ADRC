@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
 #include <cmath>
 #include <fstream>
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     const char* cases[] = {"load_steps", "model_error", "measurement_noise"};
     for (int scenario = 0; scenario < 3; ++scenario)
     {
-        adrc::LESO2 observers[3];
+        ADRC::LESO2 observers[3];
         for (int index = 0; index < 3; ++index)
         {
             if (!observers[index].Init(b0, bandwidths[index]))
@@ -50,7 +50,7 @@ int main(int argc, char** argv)
             const double measurement = output + (scenario == 2 ? noise(generator) : 0.0);
             for (int index = 0; index < 3; ++index)
             {
-                adrc::LESO2& observer = observers[index];
+                ADRC::LESO2& observer = observers[index];
                 // 比较同一时刻的 y[k]、f[k]、z[k]，再预测下一拍。
                 csv << cases[scenario] << ',' << time << ',' << input << ','
                     << measurement << ',' << output << ',' << total_disturbance << ','

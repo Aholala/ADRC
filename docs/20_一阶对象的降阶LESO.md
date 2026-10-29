@@ -159,8 +159,8 @@ $$
 
 ## 7. MATLAB实验看什么
 
-打开根目录 `start.m`，设置 `lesson_id=20`，按F5运行整个文件。
-也可打开 `matlab/第20讲_一阶对象的降阶LESO/run_lesson.m`，不需要g++、MEX或Simulink。
+打开根目录 `start.m`，设置 `number=20`，按F5运行整个文件。
+也可打开 `matlab/教学/第20讲_一阶对象的降阶LESO/run_lesson.m`，不需要g++、MEX或Simulink。
 参数沿用第10讲教学设置，新增非零初态与噪声，不冒充原完整模型或实机配置。
 
 | 项目 | 教学设置 |

@@ -7,10 +7,10 @@
 
 ## 1. 新模块负责什么
 
-新增 `adrc::LTD2`：
+新增 `ADRC::LTD2`：
 
-- `include/adrc/adrc.hpp`：初始化、复位、更新与状态读取接口。
-- `src/adrc.cpp`：参数检查与两个状态的一拍推进。
+- `main/ALG_ADRC.hpp`：初始化、复位、更新与状态读取接口。
+- `main/ALG_ADRC.cpp`：参数检查与两个状态的一拍推进。
 
 | 状态 | 含义 | 若输入为角度 |
 | --- | --- | --- |
@@ -52,9 +52,9 @@ Init预先计算 `r_squared=r*r` 和 `damping=2*r`，避免每次重复计算参
 以下展示调用形式，变量由使用者的工程提供：
 
 ```cpp
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
-adrc::LTD2 td;
+ADRC::LTD2 td;
 bool configured = td.Init(r_td, initial_output, initial_rate);
 
 // 已正确初始化时，每个区间推进一次。
@@ -82,7 +82,7 @@ $$
 0<r\,dt<2
 $$
 
-Update检查该开区间；边界本身不接受。它不是推荐调参范围，也不是任意采样抖动下的稳定保证。
+该开区间用于离线选择参数和周期；当前Update只检查dt有限且为正，不再按该区间阻止执行。它不是推荐调参范围，也不是任意采样抖动下的稳定保证。
 实际每1 ms调用时应传入1 ms，不能仍按原模型的10 ms推进。
 
 以下调用失败并保持原状态，失败Init还保持原参数：
@@ -152,8 +152,8 @@ x2是平滑信号的变化率状态，正弦图中允许出现相位滞后。
 
 ## 8. 一键运行与输出
 
-根目录 `start.m` 已默认选择 `lesson_id=18`，按F5运行整个文件。
-也可打开 `matlab/第18讲_线性TD的C++实现/run_lesson.m`。
+根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
+也可打开 `matlab/教学/第18讲_线性TD的C++实现/run_lesson.m`。
 需要MATLAB、g++和上述本机参考文件，不需要MEX或启动Simulink。
 编译器自动探测、ADRC_CXX和临时PATH方式沿用第16讲。
 
@@ -171,7 +171,7 @@ C++与single结果相同，图中使用原double结果作可视化对照。
 
 ## 9. 加入库与下一步
 
-消费工程只需添加 `src/adrc.cpp`，头文件路径添加 `include/`。
+消费工程只需添加 `main/ALG_ADRC.cpp`，头文件路径添加 `main/`。
 主机文件读写、MATLAB和测试程序不属于嵌入式依赖。
 原有LADRC、LESO模块保持独立；调用方可以选择是否在目标前使用TD。
 

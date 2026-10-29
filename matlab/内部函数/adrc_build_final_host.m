@@ -1,5 +1,5 @@
 function build = adrc_build_final_host(repo)
-% 仅教学/主机验证：构建完整静态库、11个测试和两个最终例程，恢复临时环境PATH。
+% 仅主机验证：构建完整静态库、现有测试与例程，恢复临时环境PATH。
 compiler=getenv('ADRC_CXX');
 if isempty(compiler)
     [s,v]=system('where g++');
@@ -22,8 +22,11 @@ test_output=check([q(ctest) ' --test-dir ' q(directory) ' --output-on-failure'])
 [~,version]=system([q(compiler) ' --version']);
 build=struct('directory',directory,'compiler',compiler,'compiler_version',version, ...
     'test_output',test_output,'eso_runner',fullfile(directory,'eso_runner.exe'), ...
-    'control_runner',fullfile(directory,'adrc_example.exe'));
-fprintf('C++静态库、11项主机测试与最终例程：通过。\n');
+    'control_runner',fullfile(directory,'adrc_example.exe'), ...
+    'application_runner',fullfile(directory,'application_runner.exe'));
+count=regexp(test_output,'out of (\d+)','tokens','once');assert(~isempty(count));
+build.test_count=str2double(count{1});
+fprintf('C++静态库、%d项主机测试与例程：通过。\n',build.test_count);
 end
 function output=check(command)
 [status,output]=system(command);

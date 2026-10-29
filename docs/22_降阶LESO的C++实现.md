@@ -3,7 +3,7 @@
 前置：[第20讲：降阶LESO推导](20_一阶对象的降阶LESO.md)、[第21讲：降阶LESO的一阶LADRC闭环](21_降阶LESO接入一阶LADRC.md)。
 
 **教学归属：可嵌入式C++实现。** 本讲只把已经学过的独立降阶观测器加入公共库，
-暂不增加控制器组合类、TD或限幅策略。类名为 `adrc::RLESO1`。
+暂不增加控制器组合类、TD或限幅策略。类名为 `ADRC::RLESO1`。
 
 ## 1. 和参考仓库的关系
 
@@ -27,8 +27,8 @@ $$
 
 | 文件 | 用途 |
 | --- | --- |
-| `include/adrc/adrc.hpp` | 公共接口与时间标签约定 |
-| `src/adrc.cpp` | 初始化、重构、前向欧拉更新 |
+| `main/ALG_ADRC.hpp` | 公共接口与时间标签约定 |
+| `main/ALG_ADRC.cpp` | 初始化、重构、前向欧拉更新 |
 | `tests/rleso1_test.cpp` | 主机解析响应、接口与数值边界核对 |
 | `examples/22_reduced_leso_alignment/reduced_leso_runner.cpp` | CSV同输入回放工具，属于主机例程 |
 
@@ -51,7 +51,7 @@ $$
 所以这里没有无参数的 `GetDisturbance()`，避免把上一拍缓存值误当作当前估计。
 
 ```cpp
-adrc::RLESO1 observer;
+ADRC::RLESO1 observer;
 bool initialized = observer.Init(b0, omega_o, first_measurement, initial_f_hat);
 ```
 
@@ -91,14 +91,14 @@ $$
 Reset需要已有ωo才能执行状态变换，因此初始化前Reset会返回false。
 
 - b0必须有限非零，允许负增益；ωo必须有限且为正。
-- 测量、输入、初值和周期必须有效，要求 `0<omega_o*dt<2`。
+- 初值和运算结果必须有效，周期必须有限且为正；库不执行理论稳定区间检查。
 - Init失败保留旧配置和q；Reset、Update失败保留q。
 - Calc失败保留调用方传入的输出引用；成功不改变q。
 - 初始q或初始重构结果不可表示、当前重构溢出、状态更新溢出时返回false。
 
 该步长范围只描述理想离散误差极点，不代表任意闭环或周期抖动下的性能保证。
 本实现不需要预先存ωo²，因此不会因为某个从未使用的平方增益无法表示而拒绝配置；
-每次实际运算仍要通过有限值与步长检查。极端数值测试不是推荐工作参数。
+每次实际运算仍检查正周期和有效结果。极端数值测试不是推荐工作参数。
 
 float重构包含两个较大量的相加抵消。
 有限精度下，即使初态按公式设置，第一次重构也不保证与期望扰动逐位相等；
@@ -122,7 +122,7 @@ float重构包含两个较大量的相加抵消。
 ## 6. MATLAB怎样核对真实C++
 
 打开根目录 `start.m`，选择22，按F5运行整个文件。
-也可打开 `matlab/第22讲_降阶LESO的C++实现/run_lesson.m`。
+也可打开 `matlab/教学/第22讲_降阶LESO的C++实现/run_lesson.m`。
 它自动编译核心、运行主机测试，再运行CSV回放程序，需要g++，不需要MEX或Simulink。
 编译器探测与临时PATH恢复沿用第16讲，可通过ADRC_CXX指定完整路径。
 
@@ -180,7 +180,7 @@ ARM记录包含目标参数、对象文件和当前源文件哈希；MATLAB入�
 - `alignment_result.mat`：变量result，含教学归属、参数、编译器、主机测试输出与数据。
 - `reduced_leso_cpp_alignment.fig/.png/.svg`：中文教学图。
 
-移入消费工程时，只需增加头文件搜索目录include并编译 `src/adrc.cpp`。
+移入消费工程时，只需增加头文件搜索目录include并编译 `main/ALG_ADRC.cpp`。
 不要把测试程序、CSV解析或主机日志代码带进固件控制环。
 核心对象编译通过只能说明相关目标编译器接受它，仍需要消费工程链接、板上时序和实际对象验证。
 

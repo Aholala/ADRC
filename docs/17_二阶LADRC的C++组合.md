@@ -2,7 +2,7 @@
 
 前置：[第16讲：三阶LESO的C++实现](16_三阶LESO的C++实现.md)。
 
-**教学归属：工程实现。** 本讲新增 `adrc::LADRC2`，内部组合已有 `LESO3`，
+**教学归属：工程实现。** 本讲新增 `ADRC::LADRC2`，内部组合已有 `LESO3`，
 将第13讲控制公式落实为可单独调用的C++控制计算和观测更新。
 
 ## 1. 类内部保存什么
@@ -13,8 +13,8 @@
 
 本讲组件在合并库中的位置：
 
-- `include/adrc/adrc.hpp`：接口与组合关系。
-- `src/adrc.cpp`：参数初始化、静态控制律与观测更新转发。
+- `main/ALG_ADRC.hpp`：接口与组合关系。
+- `main/ALG_ADRC.cpp`：参数初始化、静态控制律与观测更新转发。
 
 已有LADRC1仍对应一阶对象，未被替换。
 
@@ -27,6 +27,8 @@ u_{req}=\frac{k_p(r-z_1)-k_dz_2-z_3}{b_0}
 $$
 
 本例是角度给定与零速度基准反馈，没有目标速度或加速度前馈。
+
+这描述本讲保留的旧调用方式。当前库另有目标位置、目标速度的新Calc重载；应用02/03分别比较两种用法，本讲公式不随扩展改写。
 可以将TD的v1作为位置给定，但目标过渡中的动态跟踪误差仍需按第14讲理解。
 
 ```cpp
@@ -71,7 +73,7 @@ if (calculated)
 ## 4. 初始化、复位与读取
 
 ```cpp
-adrc::LADRC2 controller;
+ADRC::LADRC2 controller;
 bool configured = controller.Init(b0, omega_c, omega_o,
                                   initial_output, initial_rate, initial_disturbance);
 ```
@@ -113,7 +115,7 @@ Init先检查反馈增益，再初始化临时观测器；全部成功后才替�
 - 无效初始化、增益溢出/下溢、复位与观测更新失败后的保持行为。
 - 负输入增益与独立实例。
 
-Init检查正且可表示的控制增益，观测器沿用原周期检查。
+Init检查正且可表示的控制增益；观测器只要求周期有限且为正，不再执行运行时稳定区间检查。
 它不要求wc与wo具有某个固定比例，也不根据这些局部检查自动保证实际对象闭环稳定。
 本讲参数wc=8、wo=40只是已经核对的教学配置。
 
@@ -171,8 +173,8 @@ float值本身也有表示误差，限幅断言按相同的float边界比较。
 
 ## 10. MATLAB一键运行
 
-根目录 `start.m` 默认选择 `lesson_id=17`，按F5运行整个文件。
-也可打开 `matlab/第17讲_二阶LADRC的C++组合/run_lesson.m`。
+根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
+也可打开 `matlab/教学/第17讲_二阶LADRC的C++组合/run_lesson.m`。
 需要MATLAB、g++和本机ADRC1参考文件，不需要MEX。
 编译器探测、ADRC_CXX和PATH临时设置方式沿用第16讲。
 
@@ -190,10 +192,10 @@ CSV中before是本拍估计，after是UpdateObserver后的下一拍预测；最�
 
 ## 11. 加入嵌入式工程
 
-消费工程添加 `src/adrc.cpp`，头文件搜索路径添加 `include/`。
+消费工程添加 `main/ALG_ADRC.cpp`，头文件搜索路径添加 `main/`。
 不需要加入主机驱动、文件流、MATLAB或测试代码。核心使用C++11，未引入HAL、RTOS或动态内存。
 
-目前两个核心组件统一位于src/adrc.cpp，整库Cortex-M4/M7对象编译见第30讲；
+目前两个核心组件统一位于main/ALG_ADRC.cpp，整库Cortex-M4/M7对象编译见第30讲；
 尚未完成实际固件链接、任务时序、板上数据或电机验证。
 MATLAB入口重跑主机验证，不自动调用ARM工具链。
 

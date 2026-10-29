@@ -69,7 +69,7 @@ ZOH对象与欧拉观测器的离散方式不同，会有小的确定性暂态�
 
 ## 5. 运行和产物
 
-将根目录start.m的lesson_id设为26，或打开 `matlab/第26讲_完整非线性ESO与LESO对照/run_lesson.m`，F5整文件运行。
+将根目录start.m的mode设为“教学”、number设为26，或打开 `matlab/教学/第26讲_完整非线性ESO与LESO对照/run_lesson.m`，F5整文件运行。
 只需MATLAB和本机ADRC1文件，不需g++/Simulink。
 数据、指标和中文图在 `build/lesson26/`；`observer_result.mat` 保存变量result。
 下一讲将同一公式加入C++库并分层核对。

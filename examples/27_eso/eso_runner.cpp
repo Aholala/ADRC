@@ -1,4 +1,4 @@
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -9,10 +9,10 @@ int main(int argc,char** argv)
 {
     if(argc!=4) return 1;
     std::ifstream config(argv[1]),input(argv[2]); std::ofstream output(argv[3]);
-    adrc::ESO3Config c={}; float z1=0,z2=0,z3=0;
+    ADRC::ESO3Config c={}; float z1=0,z2=0,z3=0;
     if(!(config>>c.b0>>c.beta1>>c.beta2>>c.beta3>>c.alpha1>>c.alpha2>>c.delta>>z1>>z2>>z3)) return 1;
     config>>std::ws; if(!config.eof()) return 1;
-    adrc::ESO3 observer;
+    ADRC::ESO3 observer;
     if(!observer.Init(c,z1,z2,z3) || !input || !output) return 1;
     std::string line; if(!std::getline(input,line)) return 1;
     if(!line.empty() && line.back()=='\r') line.pop_back();

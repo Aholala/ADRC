@@ -4,7 +4,7 @@
 这是开环同输入回放，不包含控制器、对象模型或限幅策略。
 
 运行根目录 `start.m`，选择第22讲；它自动编译核心、主机测试和本驱动。
-核心只需要 `include/adrc/adrc.hpp` 与 `src/adrc.cpp`。
+核心只需要 `main/ALG_ADRC.hpp` 与 `main/ALG_ADRC.cpp`。
 CSV读写、命令行解析和输出日志属于主机工具，不加入固件控制环。
 
 时序为 `Calc(measurement,estimate)` → 消费本拍估计 → `Update(applied_input,measurement,dt)`。

@@ -3,38 +3,48 @@
 ## 最直接的启动方式
 
 1. 在MATLAB编辑器中打开 `D:/ACE/Infantry_dev/ADRC/start.m`。
-2. 默认 `lesson_id = 30`，自动验收第26～29讲与11项主机测试；可改成7～29或0。
+2. 默认 `mode='教学'`、`number=1`，从第1讲开始；教学编号为1~29。
 3. 点击“运行”（F5），运行整个文件。
 
-也可以直接打开下列课程文件夹里的 `run_lesson.m`，运行整个文件：
+应用将mode设为“应用”、number设为1~4；自动检查设为“验证”；原Simulink模型设为“原例”。
+也可以直接打开对应中文目录的run_lesson.m、run_case.m或run_checks.m运行整个文件。
+
+| 用途 | 目录 | 说明 |
+| --- | --- | --- |
+| 教学 | matlab/教学/第XX讲_主题 | 第1~6讲已补简明MATLAB实验，后续课次迁移保留 |
+| 应用 | matlab/应用方案/01~04_主题 | 独立运行速度、舵向、视觉跟随、四轮功率限制 |
+| 验证 | matlab/验证/run_checks.m | 当前14项C++测试、课程入口和四类应用；不代表已经学完 |
+| 原例 | matlab/原例对照/补充原例_二阶LADRC与三阶LESO | 原例模型工作副本，需要Simulink |
+
+各讲现有入口与依赖：
 
 | 中文目录（相对项目根目录） | 内容 | 依赖 |
 | --- | --- | --- |
-| `matlab/第07讲_LADRC与LESO初始化/` | 一阶LADRC、二阶LESO初始化与接管 | MATLAB |
-| `matlab/第08讲_线性TD/` | 线性二阶跟踪微分器 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第09讲_非线性TD/` | 非线性二阶TD与fhan | MATLAB及本机ADRC1参考文件 |
-| `matlab/第10讲_二阶LESO状态与时序/` | 一阶对象的二阶LESO状态与时序 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第11讲_三阶LESO/` | 二阶对象的三阶LESO | MATLAB及本机ADRC1参考文件 |
-| `matlab/第12讲_LESO带宽与噪声/` | 三阶LESO带宽与测量噪声 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第13讲_二阶LADRC闭环/` | 状态反馈、扰动补偿与三阶LESO闭环 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第14讲_TD接入二阶LADRC/` | 线性TD的平滑目标接入二阶LADRC | MATLAB及本机ADRC1参考文件 |
-| `matlab/第15讲_限幅与实际输入反馈/` | 二阶LADRC限幅及LESO输入对比 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第16讲_三阶LESO的C++对齐/` | C++主机测试、single/double逐拍对照 | MATLAB、g++及本机ADRC1参考参数 |
-| `matlab/第17讲_二阶LADRC的C++组合/` | C++自主闭环、接口与分层核对 | MATLAB、g++及本机ADRC1参考文件 |
-| `matlab/第18讲_线性TD的C++实现/` | C++线性TD主机测试、逐拍核对 | MATLAB、g++及本机ADRC1参考文件 |
-| `matlab/第19讲_完整C++接入示例/` | TD、LADRC、限幅和实际输入反馈组合 | MATLAB、g++及本机ADRC1参考文件 |
-| `matlab/第20讲_一阶对象的降阶LESO/` | 辅助状态变换、全阶/降阶阶跃与噪声对照 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第21讲_降阶LESO接入一阶LADRC/` | 三种工况的降阶/全阶一阶LADRC独立闭环 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第22讲_降阶LESO的C++实现/` | 独立C++降阶LESO测试与single/double逐拍核对 | MATLAB、g++及本机ADRC1参考文件 |
-| `matlab/第23讲_C++降阶一阶LADRC闭环接入/` | 三条自主C++闭环与single回放、独立double核对 | MATLAB、g++及本机ADRC1参考文件 |
-| `matlab/第24讲_非线性TD的C++实现/` | 原fhan的C++实现、三种h0与single/原double核对 | MATLAB、g++及本机ADRC1参考文件 |
-| `matlab/第25讲_fal与非线性ESO入门/` | 静态fal、单独纠偏、噪声增益与原ESO导数核对 | MATLAB及本机ADRC1参考文件 |
-| `matlab/第26讲_完整非线性ESO与LESO对照/` | 局部增益匹配、原连续导数与噪声对照 | MATLAB及本机ADRC1文件 |
-| `matlab/第27讲_非线性ESO的C++实现/` | C++非线性ESO与single/原double | MATLAB、g++、CMake、Ninja及ADRC1 |
-| `matlab/第28讲_非线性误差反馈与闭环/` | 原两项fal反馈与完整MATLAB组合 | MATLAB及本机ADRC1文件 |
-| `matlab/第29讲_完整非线性ADRC的C++接入/` | 三条自主C++闭环与两层核对 | MATLAB、g++、CMake、Ninja及ADRC1 |
-| `matlab/第30讲_库使用与最终验证/` | 自动运行第26～29讲并汇总验收 | MATLAB、g++、CMake、Ninja及ADRC1 |
-| `matlab/补充原例_二阶LADRC与三阶LESO/` | Motion_acc03原模型 | MATLAB、Simulink及本机ADRC1参考文件 |
+| `matlab/教学/第07讲_LADRC与LESO初始化/` | 一阶LADRC、二阶LESO初始化与接管 | MATLAB |
+| `matlab/教学/第08讲_线性TD/` | 线性二阶跟踪微分器 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第09讲_非线性TD/` | 非线性二阶TD与fhan | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第10讲_二阶LESO状态与时序/` | 一阶对象的二阶LESO状态与时序 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第11讲_三阶LESO/` | 二阶对象的三阶LESO | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第12讲_LESO带宽与噪声/` | 三阶LESO带宽与测量噪声 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第13讲_二阶LADRC闭环/` | 状态反馈、扰动补偿与三阶LESO闭环 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第14讲_TD接入二阶LADRC/` | 线性TD的平滑目标接入二阶LADRC | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第15讲_限幅与实际输入反馈/` | 二阶LADRC限幅及LESO输入对比 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第16讲_三阶LESO的C++对齐/` | C++主机测试、single/double逐拍对照 | MATLAB、g++及本机ADRC1参考参数 |
+| `matlab/教学/第17讲_二阶LADRC的C++组合/` | C++自主闭环、接口与分层核对 | MATLAB、g++及本机ADRC1参考文件 |
+| `matlab/教学/第18讲_线性TD的C++实现/` | C++线性TD主机测试、逐拍核对 | MATLAB、g++及本机ADRC1参考文件 |
+| `matlab/教学/第19讲_完整C++接入示例/` | TD、LADRC、限幅和实际输入反馈组合 | MATLAB、g++及本机ADRC1参考文件 |
+| `matlab/教学/第20讲_一阶对象的降阶LESO/` | 辅助状态变换、全阶/降阶阶跃与噪声对照 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第21讲_降阶LESO接入一阶LADRC/` | 三种工况的降阶/全阶一阶LADRC独立闭环 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第22讲_降阶LESO的C++实现/` | 独立C++降阶LESO测试与single/double逐拍核对 | MATLAB、g++及本机ADRC1参考文件 |
+| `matlab/教学/第23讲_C++降阶一阶LADRC闭环接入/` | 三条自主C++闭环与single回放、独立double核对 | MATLAB、g++及本机ADRC1参考文件 |
+| `matlab/教学/第24讲_非线性TD的C++实现/` | 原fhan的C++实现、三种h0与single/原double核对 | MATLAB、g++及本机ADRC1参考文件 |
+| `matlab/教学/第25讲_fal与非线性ESO入门/` | 静态fal、单独纠偏、噪声增益与原ESO导数核对 | MATLAB及本机ADRC1参考文件 |
+| `matlab/教学/第26讲_完整非线性ESO与LESO对照/` | 局部增益匹配、原连续导数与噪声对照 | MATLAB及本机ADRC1文件 |
+| `matlab/教学/第27讲_非线性ESO的C++实现/` | C++非线性ESO与single/原double | MATLAB、g++、CMake、Ninja及ADRC1 |
+| `matlab/教学/第28讲_非线性误差反馈与闭环/` | 原两项fal反馈与完整MATLAB组合 | MATLAB及本机ADRC1文件 |
+| `matlab/教学/第29讲_完整非线性ADRC的C++接入/` | 三条自主C++闭环与两层核对 | MATLAB、g++、CMake、Ninja及ADRC1 |
+| `matlab/验证/第30讲_库使用与最终验证/` | 自动运行第26～29讲并汇总验收 | MATLAB、g++、CMake、Ninja及ADRC1 |
+| `matlab/原例对照/补充原例_二阶LADRC与三阶LESO/` | Motion_acc03原模型 | MATLAB、Simulink及本机ADRC1参考文件 |
 
 参考仓库仍使用你指定的 `D:/ACE/ADRC/ADRC1`，不修改里面的文件。
 课程入口自行定位本项目和加载内部函数，无需先手动设置搜索路径。
@@ -66,6 +76,11 @@
 
 输出位于项目的 `build/lesson07/`～`build/lesson30/` 和 `build/reference_adrc1/`。
 
+## 以下为2026-10-28的历史运行记录
+
+以下按旧课次记录当时的入口、测试数和结果。当前默认教学第1讲，当前自动验证包含14项主机测试，
+最新完整记录位于build/verification/final_verification.json，不用历史默认课次覆盖当前启动说明。
+
 ## 第7～9讲入口整理时的验证记录
 
 2026-10-28，在本机MATLAB R2025b中，从临时目录出发，每次恢复默认搜索路径，
@@ -77,21 +92,21 @@
 
 ## 第10讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第10讲。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行本讲 `run_lesson.m` 和根目录入口，
 均完成3001个采样状态及图形导出，原函数对照最大差值为0。
 本讲记录单独保存在 `build/lesson10/entry_verification.json`，前面的5项记录保留为当时的验证结果。
 
 ## 第11讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第11讲。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行三阶LESO课程入口与根目录入口，
 均完成3001个采样状态和中文图形导出，原矩阵对照最大差值约 `1.64e-12`。
 记录在 `build/lesson11/entry_verification.json`；未新增或声称验证三阶LESO的C++实现。
 
 ## 第12讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第12讲。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 六组观测器共36006行数据，原矩阵对照最大差值约 `4.15e-11`；
 还检查了噪声序列可重复、全局rng不变和中文图形导出。
@@ -99,28 +114,28 @@
 
 ## 第13讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第13讲。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 两组闭环共12002行数据，完整离散闭环对照最大差值约 `1.89e-12`，中文图形已检查。
 记录在 `build/lesson13/entry_verification.json`。该记录验证本讲理想教学模型，不代表实际硬件验证。
 
 ## 第14讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第14讲。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 TD原函数对照最大差值为0，12002行闭环数据对照最大差值约 `1.40e-12`；中文图形已检查。
 记录在 `build/lesson14/entry_verification.json`。本讲v2仅记录，不接入控制律。
 
 ## 第15讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第15讲。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 两组闭环共12002行数据，含限幅的完整参考更新最大差值约 `2.91e-11`，中文图形已检查。
 记录在 `build/lesson15/entry_verification.json`。反例的大请求值没有作为实际输入施加给对象。
 
 ## 第16讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第16讲，本讲新增g++编译器依赖。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 当前C++主机测试通过，两组共6002次更新的更新前后状态与MATLAB single完全一致。
 已检查PATH自动恢复、全局rng保持与中文图形；记录在 `build/lesson16/entry_verification.json`。
@@ -128,7 +143,7 @@ TD原函数对照最大差值为0，12002行闭环数据对照最大差值约 `1
 
 ## 第17讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第17讲，需要g++。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 主机接口与解析闭环测试通过，两组自主C++闭环共12002次更新；同输入回放的控制请求与状态和single参考完全一致。
 独立double闭环位置最大差值约 `2.76e-6 rad`，实际输入最大差值约 `2.66e-5 A`。
@@ -137,7 +152,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson17/entry_verificatio
 
 ## 第18讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第18讲，需要g++。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 主机解析响应与接口测试通过，恒值和正弦两组共2002次更新与MATLAB single完全一致。
 与原TD2_L double更新的最大差值约为x1的7.63e-6、x2的1.91e-5。
@@ -146,7 +161,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson18/entry_verificatio
 
 ## 第19讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第19讲，需要g++。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b已从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 三个相关核心的主机测试通过，两组完整C++闭环共16002次更新；同输入回放的控制请求、两个TD状态和三个LESO状态与MATLAB single逐拍完全一致。
 独立double闭环的位置最大差值约 `2.70e-6 rad`，实际输入最大差值约 `9.30e-6 A`。
@@ -155,7 +170,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 
 ## 第20讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第20讲，仅需MATLAB及本机参考文件。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 干净、带噪两组共6002行；全阶比较组与原ADRC_1最大差值约2.20e-14，降阶离散递推残差约7.33e-14，阶跃解析解最大差值约2.96e-13。
 搜索路径、环境PATH和全局rng保持原状，中文图形已检查；记录在 `build/lesson20/entry_verification.json`。
@@ -163,7 +178,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 
 ## 第21讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第21讲，仅需MATLAB及本机ADRC1参考文件。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 三种工况下全阶/降阶六条独立闭环共30006行；与原ADRC_1控制律、全阶更新对照差值均为0。
 降阶无限幅闭环与独立矩阵递推最大差值约7.31e-14，含噪声递推残差最大约2.89e-14。
@@ -172,7 +187,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 
 ## 第22讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第22讲，需要g++，无需MEX。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b从临时目录、默认搜索路径分别运行课程入口和根目录入口，主机测试、两组回放与图形导出均通过。
 两组共6002次更新，q更新前后与当前扰动估计均和MATLAB single逐拍完全一致。
 相同float输入下，对double参考的q与扰动估计最大差值分别约1.98e-4、2.00e-4 rad/s²。
@@ -181,7 +196,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 
 ## 第23讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第23讲，需要g++，无需MEX。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b从临时目录、默认搜索路径分别运行课程入口和根目录入口，核心主机测试、三条自主C++闭环与图形导出均通过。
 共15003次更新，同测量single回放的q更新前后、扰动估计、请求和实际输入均逐拍一致。
 相对独立double闭环，最大速度差约6.79e-6 rad/s，实际输入差约6.14e-6 A；原反馈分支核对差值为0。
@@ -190,7 +205,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 
 ## 第24讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第24讲，需要g++，无需MEX或Simulink。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b从临时目录、默认搜索路径分别运行课程入口和根目录入口，非线性TD主机测试、六组回放与图形导出均通过。
 共12006次更新，两个状态更新前后与当前内部加速度均和MATLAB single逐拍一致。
 相对原TD2_NL自主double更新，x1、x2、fh最大差值分别约1.33e-7、3.47e-6、5.39e-4。
@@ -200,7 +215,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 
 ## 第25讲入口验证
 
-2026-10-28，根目录 `start.m` 默认改为第25讲，无需g++、MEX或Simulink。
+2026-10-28，根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
 本机R2025b从临时目录、默认搜索路径分别运行课程入口和根目录入口，均通过。
 9组原ESO当前导数探针、两个原非线性结构的对应以及alpha=1退化为LESO的核对差值均为0。
 三组单独纠偏共7503次更新通过解析/时序检查；静态噪声RMS增益与小误差斜率一致。
@@ -221,7 +236,7 @@ PATH恢复和中文图形已检查，记录在 `build/lesson19/entry_verificatio
 | 30 | 汇总92013 | 统一C++11构建、11项主机测试和上述四讲全部通过 |
 
 四张新增中文图已检查；第25讲因共享fal扩展支持alpha>1，也重新运行通过。
-仅C++入口tests/verify_host.ps1已独立运行，测试11/11通过；tests/verify_arm.ps1生成M4/M7静态库，各1个adrc.o对象包含全部10个算法组件，归档通过。
+仅C++入口tests/verify_host.ps1已独立运行，测试11/11通过；tests/verify_arm.ps1生成M4/M7静态库，各1个ALG_ADRC.o对象包含全部10个算法组件，归档通过。
 最终记录在build/lesson30/final_verification.json、build/host/host_verification.json与build/arm/verification.json。
 ARM记录包含源文件及头文件哈希，已核对与最终核心一致。本次没有消费工程ELF链接、板上时序或电机验证。
 第30讲完成第一版基础课程，限幅超调、浮点残差和实机边界均在讲义中保留说明。

@@ -15,10 +15,10 @@
 | z2 | 输出角速度估计 | rad/s | `GetRate()` |
 | z3 | 总扰动估计 | rad/s² | `GetDisturbance()` |
 
-新增的模块为 `adrc::LESO3`：
+新增的模块为 `ADRC::LESO3`：
 
-- `include/adrc/adrc.hpp`：接口与状态。
-- `src/adrc.cpp`：初始化、复位和一拍更新。
+- `main/ALG_ADRC.hpp`：接口与状态。
+- `main/ALG_ADRC.cpp`：初始化、复位和一拍更新。
 
 已有 `LESO2` 仍服务于一阶对象，没有被覆盖或改成三阶。
 公共模块不依赖HAL、RTOS、动态内存、系统时钟或本机文件读写。
@@ -52,9 +52,9 @@ const float next_z3 = z3_ - dt * beta3_ * error;
 以下是调用形式，变量由使用者的工程提供：
 
 ```cpp
-#include "adrc/adrc.hpp"
+#include "ALG_ADRC.hpp"
 
-adrc::LESO3 observer;
+ADRC::LESO3 observer;
 bool configured = observer.Init(b0, omega_o,
                                 initial_output, initial_rate, initial_disturbance);
 
@@ -83,13 +83,14 @@ if (updated)
 - b0为0或非有限值；带宽非正或非有限。
 - 增益计算溢出或下溢为0，尤其要检查新增的三次方增益。
 - 初始状态、输入、测量或周期不是有限数值。
-- dt非正，或 `omega_o*dt` 不在开区间 `(0,2)` 内。
+- dt非正或不是有限数值。
 - 更新运算产生非有限结果。
 
 负的非零b0允许使用，以适应调用方的坐标与输入方向约定。
-失败后的业务动作由使用者决定，模块不自动改周期、清零、限制估计状态或选择其他控制模式。
+失败后的业务动作由使用者决定，模块不自动改周期、清零或选择其他控制模式；扰动估计只按调用方显式设置的上限限制，默认不限制。
 这些检查依赖正常IEEE浮点语义，不应加上 `-ffast-math` 后仍假定有限性检查有效。
 固定周期的理想误差系统稳定范围，不代表任意采样抖动或整个实际闭环的稳定保证。
+当前库不在Update中检查理论稳定区间，调用方应在运行前验证参数与周期。
 
 ## 5. 为什么这次要同时比较single和double
 
@@ -146,8 +147,8 @@ MATLAB对齐场景使用前几讲的对象轨迹；两种测试的对象离散�
 
 ## 8. MATLAB一键验证怎么运行
 
-根目录 `start.m` 当前默认 `lesson_id=16`，按F5运行整个文件。
-也可打开 `matlab/第16讲_三阶LESO的C++对齐/run_lesson.m`。
+根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
+也可打开 `matlab/教学/第16讲_三阶LESO的C++对齐/run_lesson.m`。
 
 本讲新增g++依赖，不需要配置MEX。入口会自动编译、运行C++主机测试和两组数据对齐，再导出中文图。
 编译器优先使用环境变量ADRC_CXX指定的完整路径，其次搜索PATH，最后探测本机已安装的MSYS2位置。
@@ -155,7 +156,7 @@ MATLAB对齐场景使用前几讲的对象轨迹；两种测试的对象离散�
 
 ```matlab
 setenv('ADRC_CXX','D:/msys64/ucrt64/bin/g++.exe')
-run('D:/ACE/Infantry_dev/ADRC/matlab/第16讲_三阶LESO的C++对齐/run_lesson.m')
+run('D:/ACE/Infantry_dev/ADRC/matlab/教学/第16讲_三阶LESO的C++对齐/run_lesson.m')
 ```
 
 编译所需PATH前缀只在函数作用域内临时设置，返回或报错时恢复。
@@ -176,7 +177,7 @@ run('D:/ACE/Infantry_dev/ADRC/matlab/第16讲_三阶LESO的C++对齐/run_lesson.
 
 ## 9. 嵌入式使用与证据边界
 
-消费工程只需添加 `src/adrc.cpp`，并将 `include/` 加入头文件搜索路径。
+消费工程只需添加 `main/ALG_ADRC.cpp`，并将 `main/` 加入头文件搜索路径。
 不需要加入MATLAB、测试程序或CSV驱动程序。仍需由工程提供初始化参数、周期、输入和测量。
 
 本次另完成Cortex-M4与Cortex-M7浮点选项下的核心对象编译，关闭异常与RTTI。

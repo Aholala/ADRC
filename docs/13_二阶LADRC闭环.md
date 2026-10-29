@@ -165,11 +165,11 @@ $$
 
 ## 8. 在MATLAB中运行
 
-根目录 `start.m` 当前默认 `lesson_id=13`，打开后按F5运行整个文件。
-也可直接打开 `matlab/第13讲_二阶LADRC闭环/run_lesson.m`。
+根目录 `start.m` 选择教学模式并设置本讲number，按F5运行。
+也可直接打开 `matlab/教学/第13讲_二阶LADRC闭环/run_lesson.m`。
 
 ```matlab
-run('D:/ACE/Infantry_dev/ADRC/matlab/第13讲_二阶LADRC闭环/run_lesson.m')
+run('D:/ACE/Infantry_dev/ADRC/matlab/教学/第13讲_二阶LADRC闭环/run_lesson.m')
 ```
 
 需要MATLAB和上述本机ADRC1参考文件，不需要启动Simulink。
